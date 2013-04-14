@@ -131,7 +131,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/blCB"
         android:layout_marginLeft="8dp"
-        android:text="Corner Radius" />
+        android:text="Corner Radius: 8dp" />
 
     <SeekBar
         android:id="@+id/radiusSB"
@@ -159,7 +159,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tlCB"
         android:layout_alignBottom="@+id/tlCB"
-        android:layout_margin="4dp"
+        android:layout_margin="8dp"
         android:layout_toRightOf="@+id/blCB"
         android:checked="true"
         android:text="Top Right"
