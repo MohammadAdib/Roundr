@@ -9,9 +9,17 @@ import android.os.Bundle;
 
 public class MainActivity extends Activity {
 
+	/**
+	 * Main Activity that launches the 4 floating windows (corners)
+	 * 
+	 * @author Mohammad Adib <m.a.adib96@gmail.com>
+	 * 
+	 *         Contributors: Mark Wei
+	 * 
+	 */
+
 	ProgressDialog progress;
 
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -22,18 +22,78 @@ import android.widget.ToggleButton;
 
 public class SettingsActivity extends Activity {
 
-	/** Called when the activity is first created. */
+	/**
+	 * Settings Dialog Theme can be changed via Manifest
+	 * 
+	 * @author Mohammad Adib <m.a.adib96@gmail.com>
+	 * 
+	 *         Contributors: Mark Wei
+	 * 
+	 */
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.settings);
+		// Read saved preferences
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean boot = prefs.getBoolean("boot", true);
 		boolean notification = prefs.getBoolean("notification", true);
 		int radius = prefs.getInt("radius", 8);
+		// determines which corners to show
+		boolean c0 = prefs.getBoolean("corner0", true);
+		boolean c1 = prefs.getBoolean("corner1", true);
+		boolean c2 = prefs.getBoolean("corner2", true);
+		boolean c3 = prefs.getBoolean("corner3", true);
+		// Initialize views
 		CheckBox bootCB = (CheckBox) findViewById(R.id.bootCB);
+		CheckBox tlCB = (CheckBox) findViewById(R.id.tlCB); // Top left
+		CheckBox trCB = (CheckBox) findViewById(R.id.trCB); // Top right
+		CheckBox blCB = (CheckBox) findViewById(R.id.blCB); // Bottom left
+		CheckBox brCB = (CheckBox) findViewById(R.id.brCB); // Bottom right
 		CheckBox notificationCB = (CheckBox) findViewById(R.id.notificationCB);
 		SeekBar radiusSB = (SeekBar) findViewById(R.id.radiusSB);
+		// Set view properties
+		tlCB.setChecked(c0);
+		tlCB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				prefs.edit().putBoolean("corner0", isChecked).commit();
+				refresh();
+			}
+
+		});
+		trCB.setChecked(c1);
+		trCB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				prefs.edit().putBoolean("corner1", isChecked).commit();
+				refresh();
+			}
+
+		});
+		blCB.setChecked(c2);
+		blCB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				prefs.edit().putBoolean("corner2", isChecked).commit();
+				refresh();
+			}
+
+		});
+		brCB.setChecked(c3);
+		brCB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				prefs.edit().putBoolean("corner3", isChecked).commit();
+				refresh();
+			}
+
+		});
 		bootCB.setChecked(boot);
 		bootCB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -109,6 +169,7 @@ public class SettingsActivity extends Activity {
 			}
 
 		});
+		// Fun animation
 		findViewById(R.id.rl).startAnimation(AnimationUtils.loadAnimation(this, R.anim.show));
 	}
 
@@ -127,6 +188,10 @@ public class SettingsActivity extends Activity {
 		finish();
 	}
 
+	/*
+	 * Sends a signal to all the corners to refresh their layout parameters,
+	 * which in turn refreshes their size.
+	 */
 	public void refresh() {
 		StandOutWindow.sendData(SettingsActivity.this, RoundedCorner.class, 0, RoundedCorner.REFRESH_CODE, new Bundle(), RoundedCorner.class, 0);
 		StandOutWindow.sendData(SettingsActivity.this, RoundedCorner.class, 1, RoundedCorner.REFRESH_CODE, new Bundle(), RoundedCorner.class, 1);

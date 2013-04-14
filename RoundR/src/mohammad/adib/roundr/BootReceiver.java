@@ -8,7 +8,16 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class BootReceiver extends BroadcastReceiver {
-
+	
+	/**
+	 * Simple receiver that fires upon turning on the device
+	 * 
+	 * @author Mohammad Adib <m.a.adib96@gmail.com>
+	 * 
+	 *         Contributors: Mark Wei
+	 * 
+	 */
+	
 	public static boolean boot_up = false;
 
 	boolean boot = false;

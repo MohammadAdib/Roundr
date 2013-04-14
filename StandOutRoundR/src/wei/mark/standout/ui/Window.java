@@ -26,7 +26,7 @@ import android.widget.TextView;
 /**
  * Special view that represents a floating window.
  * 
- * @author Mark Wei <markwei@gmail.com>
+ * @author Mark Wei <markwei@gmail.com> Edited by: Mohammad Adib
  * 
  */
 public class Window extends FrameLayout {

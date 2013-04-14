@@ -16,16 +16,25 @@ import android.widget.ImageView;
 
 public class RoundedCorner extends StandOutWindow {
 
+	/**
+	 * The individual floating window that sits at one of the corners of the
+	 * screen. Window ID corresponds to which corner this goes to.
+	 * 
+	 * @author Mohammad Adib <m.a.adib96@gmail.com>
+	 * 
+	 *         Contributors: Mark Wei
+	 * 
+	 */
+
 	public static final String ACTION_SETTINGS = "SETTINGS";
 	public static final int REFRESH_CODE = 1;
 	public static final int NOTIFICATION_CODE = 2;
-	public static final int SHOW_CODE = 3;
-	public static final int CLOSE_CODE = 4;
+	public static final int CLOSE_CODE = 3;
 	public static boolean running = false;
 
 	@Override
 	public String getAppName() {
-		return "Swipe Detector";
+		return "RoundR";
 	}
 
 	@Override
@@ -34,12 +43,12 @@ public class RoundedCorner extends StandOutWindow {
 	}
 
 	@Override
-	public void createAndAttachView(int id, FrameLayout frame) {
-		// create a new layout from body.xml
+	public void createAndAttachView(int corner, FrameLayout frame) {
+		// Set the image based on window corner
 		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 		ImageView v = (ImageView) inflater.inflate(R.layout.corner, frame, true).findViewById(R.id.iv);
 		v.setImageDrawable(getResources().getDrawable(R.drawable.topleft));
-		switch (id) {
+		switch (corner) {
 		case 1:
 			v.setImageDrawable(getResources().getDrawable(R.drawable.topright));
 			break;
@@ -60,68 +69,72 @@ public class RoundedCorner extends StandOutWindow {
 	 * Corners: 0 = top left; 1 = top right; 2 = bottom left; 3 = bottom right;
 	 */
 	@Override
-	public StandOutLayoutParams getParams(int id, Window window) {
+	public StandOutLayoutParams getParams(int corner, Window window) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		int size = pxFromDp(prefs.getInt("radius", 8));
-		switch (id) {
-		case 0:
-			return new StandOutLayoutParams(id, size, size, 0, 0, 1, 1);
-		case 1:
-			return new StandOutLayoutParams(id, size, size, StandOutLayoutParams.RIGHT, 0, 1, 1);
-		case 2:
-			return new StandOutLayoutParams(id, size, size, 0, StandOutLayoutParams.RIGHT, 1, 1);
-		case 3:
-			return new StandOutLayoutParams(id, size, size, StandOutLayoutParams.BOTTOM, StandOutLayoutParams.RIGHT, 1, 1);
+		// Check if this corner is enabled
+		if (prefs.getBoolean("corner" + corner, true)) {
+			int size = pxFromDp(prefs.getInt("radius", 8));
+			switch (corner) {
+			case 0:
+				return new StandOutLayoutParams(corner, size, size, 0, 0, 1, 1);
+			case 1:
+				return new StandOutLayoutParams(corner, size, size, StandOutLayoutParams.RIGHT, 0, 1, 1);
+			case 2:
+				return new StandOutLayoutParams(corner, size, size, 0, StandOutLayoutParams.RIGHT, 1, 1);
+			case 3:
+				return new StandOutLayoutParams(corner, size, size, StandOutLayoutParams.BOTTOM, StandOutLayoutParams.RIGHT, 1, 1);
+			}
 		}
-		return new StandOutLayoutParams(id, size, size, 0, 0, 1, 1);
+		return new StandOutLayoutParams(corner, 10, 1, -1, -1, 1, 1);
+
 	}
 
 	@Override
-	public int getFlags(int id) {
-		return super.getFlags(id) | StandOutFlags.FLAG_WINDOW_FOCUSABLE_DISABLE | StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE;
+	public int getFlags(int corner) {
+		return super.getFlags(corner) | StandOutFlags.FLAG_WINDOW_FOCUSABLE_DISABLE | StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE;
 	}
 
 	@Override
-	public String getPersistentNotificationMessage(int id) {
+	public String getPersistentNotificationMessage(int corner) {
 		return "Tap to configure";
 	}
 
 	@Override
-	public Intent getPersistentNotificationIntent(int id) {
-		return new Intent(this, RoundedCorner.class).putExtra("id", id).setAction(ACTION_SETTINGS);
+	public Intent getPersistentNotificationIntent(int corner) {
+		return new Intent(this, RoundedCorner.class).putExtra("id", corner).setAction(ACTION_SETTINGS);
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		if (intent != null) {
 			String action = intent.getAction();
-			int id = intent.getIntExtra("id", DEFAULT_ID);
+			int corner = intent.getIntExtra("id", DEFAULT_ID);
 
 			// this will interfere with getPersistentNotification()
-			if (id == ONGOING_NOTIFICATION_ID) {
+			if (corner == ONGOING_NOTIFICATION_ID) {
 				throw new RuntimeException("ID cannot equals StandOutWindow.ONGOING_NOTIFICATION_ID");
 			}
 
 			if (ACTION_SHOW.equals(action) || ACTION_RESTORE.equals(action)) {
-				show(id);
+				show(corner);
 			} else if (ACTION_SETTINGS.equals(action)) {
 				Intent intentS = new Intent(this, SettingsActivity.class);
 				intentS.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intentS);
 			} else if (ACTION_HIDE.equals(action)) {
-				hide(id);
+				hide(corner);
 			} else if (ACTION_CLOSE.equals(action)) {
-				close(id);
+				close(corner);
 			} else if (ACTION_CLOSE_ALL.equals(action)) {
 				closeAll();
 			} else if (ACTION_SEND_DATA.equals(action)) {
-				if (isExistingId(id) || id == DISREGARD_ID) {
+				if (isExistingId(corner) || corner == DISREGARD_ID) {
 					Bundle data = intent.getBundleExtra("wei.mark.standout.data");
 					int requestCode = intent.getIntExtra("requestCode", 0);
 					@SuppressWarnings("unchecked")
 					Class<? extends StandOutWindow> fromCls = (Class<? extends StandOutWindow>) intent.getSerializableExtra("wei.mark.standout.fromCls");
 					int fromId = intent.getIntExtra("fromId", DEFAULT_ID);
-					onReceiveData(id, requestCode, data, fromCls, fromId);
+					onReceiveData(corner, requestCode, data, fromCls, fromId);
 				}
 			}
 		}
@@ -129,23 +142,28 @@ public class RoundedCorner extends StandOutWindow {
 	}
 
 	@Override
-	public boolean onClose(final int id, final Window window) {
+	public boolean onClose(final int corner, final Window window) {
 		running = false;
 		return false;
 	}
 
 	@Override
-	public String getPersistentNotificationTitle(int id) {
+	public String getPersistentNotificationTitle(int corner) {
 		return "Rounded Corners";
 	}
 
 	@Override
-	public boolean onShow(final int id, final Window window) {
+	public boolean onShow(final int corner, final Window window) {
 		running = true;
-		if (id == 0) {
+		if (corner == 0) {
+			/**
+			 * TODO: Not the best way to determine change in screen orientation
+			 * Required because switching from portrait to landscape requires
+			 * corner 2 and 4 to be repositioned to the new "end" of the screen.
+			 */
 			new Thread(new Runnable() {
 
-				private int lastO;
+				private int lastO; // o for orientation
 
 				@Override
 				public void run() {
@@ -153,9 +171,9 @@ public class RoundedCorner extends StandOutWindow {
 						int o = getResources().getConfiguration().orientation;
 						try {
 							if (lastO != o) {
-								sendData(id, RoundedCorner.class, id, REFRESH_CODE, new Bundle());
+								sendData(corner, RoundedCorner.class, corner, REFRESH_CODE, new Bundle());
 							}
-							Thread.sleep(500);
+							Thread.sleep(500); // check every 500ms
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -169,9 +187,9 @@ public class RoundedCorner extends StandOutWindow {
 	}
 
 	@Override
-	public void onReceiveData(int id, int requestCode, Bundle data, Class<? extends StandOutWindow> fromCls, int fromId) {
+	public void onReceiveData(int corner, int requestCode, Bundle data, Class<? extends StandOutWindow> fromCls, int fromId) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		Window window = getWindow(id);
+		Window window = getWindow(corner);
 		if (requestCode == REFRESH_CODE) {
 			updateViewLayout(0, getParams(0, window));
 			updateViewLayout(1, getParams(1, window));
@@ -179,13 +197,14 @@ public class RoundedCorner extends StandOutWindow {
 			updateViewLayout(3, getParams(3, window));
 		} else if (requestCode == NOTIFICATION_CODE) {
 			if (!prefs.getBoolean("notification", true)) {
+				// Hide Notification Icon
 				NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-				Notification notification = getPersistentNotification(id);
+				Notification notification = getPersistentNotification(corner);
 				notification.icon = R.drawable.nothing;
 				mNotificationManager.notify(getClass().hashCode() + ONGOING_NOTIFICATION_ID, notification);
 			} else {
 				NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-				Notification notification = getPersistentNotification(id);
+				Notification notification = getPersistentNotification(corner);
 				mNotificationManager.notify(getClass().hashCode() + ONGOING_NOTIFICATION_ID, notification);
 			}
 		}

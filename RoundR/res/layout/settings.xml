@@ -6,40 +6,8 @@
     android:layout_height="match_parent"
     android:background="#242424" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/bootCB"
-        android:layout_marginLeft="8dp"
-        android:text="Corner Radius" />
-
-    <SeekBar
-        android:id="@+id/radiusSB"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView1"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:max="28"
-        android:progress="6" />
-
-    <CheckBox
-        android:id="@+id/notificationCB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView1"
-        android:layout_margin="4dp"
-        android:layout_toRightOf="@+id/bootCB"
-        android:checked="true"
-        android:text="Notification"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
     <LinearLayout
-        android:id="@+id/linearLayout1"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
@@ -74,23 +42,127 @@
             android:textOn="ON" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/gsTV"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/linearLayout"
+        android:background="#151515"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:text="General Settings"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/roundrTV"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/bootCB"
+        android:background="#151515"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:text="RoundR Settings"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
     <CheckBox
         android:id="@+id/bootCB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_margin="4dp"
+        android:layout_below="@+id/gsTV"
+        android:layout_margin="8dp"
         android:checked="true"
         android:text="Start on boot"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
+    <CheckBox
+        android:id="@+id/tlCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/roundrTV"
+        android:layout_margin="8dp"
+        android:checked="true"
+        android:text="Top Left"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <CheckBox
+        android:id="@+id/blCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/trCB"
+        android:layout_margin="8dp"
+        android:checked="true"
+        android:text="Bottom Left"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <CheckBox
+        android:id="@+id/brCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/blCB"
+        android:layout_alignBottom="@+id/blCB"
+        android:layout_margin="8dp"
+        android:layout_toRightOf="@+id/blCB"
+        android:checked="true"
+        android:text="Bottom Right"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <CheckBox
+        android:id="@+id/notificationCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/bootCB"
+        android:layout_alignBottom="@+id/bootCB"
+        android:layout_alignLeft="@+id/brCB"
+        android:layout_margin="8dp"
+        android:checked="true"
+        android:text="Notification"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/radiusTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/blCB"
+        android:layout_marginLeft="8dp"
+        android:text="Corner Radius" />
+
+    <SeekBar
+        android:id="@+id/radiusSB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/radiusTV"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:max="28"
+        android:progress="6" />
+
+    <TextView
+        android:id="@+id/ocd"
         android:layout_width="wrap_content"
         android:layout_height="8dp"
         android:layout_alignLeft="@+id/radiusSB"
         android:layout_alignRight="@+id/radiusSB"
         android:layout_below="@+id/radiusSB" />
+
+    <CheckBox
+        android:id="@+id/trCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tlCB"
+        android:layout_alignBottom="@+id/tlCB"
+        android:layout_margin="4dp"
+        android:layout_toRightOf="@+id/blCB"
+        android:checked="true"
+        android:text="Top Right"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
