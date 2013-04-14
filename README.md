@@ -12,7 +12,7 @@ RoundR uses Mark Wei's Brilliant StandOut library to display the overlays. The s
 ### Development
 Follow the development on XDA: http://forum.xda-developers.com/showthread.php?t=1688531
 
-![RoundR](http://i.imgur.com/THfg3ne.jpg)
+![RoundR](http://i.imgur.com/vb6sgCT.jpg)
 
 ### Download RoundR
 Google Play: https://play.google.com/store/apps/details?id=mohammad.adib.roundr
