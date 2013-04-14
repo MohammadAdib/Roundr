@@ -30,6 +30,7 @@ public class RoundedCorner extends StandOutWindow {
 	public static final int REFRESH_CODE = 1;
 	public static final int NOTIFICATION_CODE = 2;
 	public static final int CLOSE_CODE = 3;
+	private SharedPreferences prefs;
 	public static boolean running = false;
 
 	@Override
@@ -70,7 +71,7 @@ public class RoundedCorner extends StandOutWindow {
 	 */
 	@Override
 	public StandOutLayoutParams getParams(int corner, Window window) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		// Check if this corner is enabled
 		if (prefs.getBoolean("corner" + corner, true)) {
 			int size = pxFromDp(prefs.getInt("radius", 8));
@@ -109,7 +110,6 @@ public class RoundedCorner extends StandOutWindow {
 		if (intent != null) {
 			String action = intent.getAction();
 			int corner = intent.getIntExtra("id", DEFAULT_ID);
-
 			// this will interfere with getPersistentNotification()
 			if (corner == ONGOING_NOTIFICATION_ID) {
 				throw new RuntimeException("ID cannot equals StandOutWindow.ONGOING_NOTIFICATION_ID");
@@ -188,7 +188,6 @@ public class RoundedCorner extends StandOutWindow {
 
 	@Override
 	public void onReceiveData(int corner, int requestCode, Bundle data, Class<? extends StandOutWindow> fromCls, int fromId) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		Window window = getWindow(corner);
 		if (requestCode == REFRESH_CODE) {
 			updateViewLayout(0, getParams(0, window));

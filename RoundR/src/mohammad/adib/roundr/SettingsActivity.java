@@ -18,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class SettingsActivity extends Activity {
@@ -52,6 +53,7 @@ public class SettingsActivity extends Activity {
 		CheckBox blCB = (CheckBox) findViewById(R.id.blCB); // Bottom left
 		CheckBox brCB = (CheckBox) findViewById(R.id.brCB); // Bottom right
 		CheckBox notificationCB = (CheckBox) findViewById(R.id.notificationCB);
+		final TextView radiusTV = (TextView) findViewById(R.id.radiusTV);
 		SeekBar radiusSB = (SeekBar) findViewById(R.id.radiusSB);
 		// Set view properties
 		tlCB.setChecked(c0);
@@ -136,6 +138,7 @@ public class SettingsActivity extends Activity {
 
 		});
 		radiusSB.setProgress(radius - 2);
+		radiusTV.setText("Corner Radius: " + (radius - 2) + "dp");
 		radiusSB.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 			@Override
@@ -149,6 +152,7 @@ public class SettingsActivity extends Activity {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				prefs.edit().putInt("radius", seekBar.getProgress() + 2).commit();
+				radiusTV.setText("Corner Radius: " + (seekBar.getProgress() + 2) + "dp");
 				refresh();
 			}
 
