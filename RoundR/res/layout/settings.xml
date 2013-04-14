@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/bootCB"
+        android:layout_marginLeft="8dp"
+        android:text="Corner Radius" />
+
+    <SeekBar
+        android:id="@+id/radiusSB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:max="28"
+        android:progress="6" />
+
+    <CheckBox
+        android:id="@+id/notificationCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView1"
+        android:layout_margin="4dp"
+        android:layout_toRightOf="@+id/bootCB"
+        android:checked="true"
+        android:text="Notification"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/shade" >
+
+        <ImageView
+            android:id="@+id/move_upIV"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:padding="6dp"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/TextView08"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.80"
+            android:gravity="center_vertical"
+            android:text="RoundR"
+            android:textColor="#FFFFFF"
+            android:textSize="25dp" />
+
+        <ToggleButton
+            android:id="@+id/quitTB"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:checked="true"
+            android:text="ToggleButton"
+            android:textOff="OFF"
+            android:textOn="ON" />
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/bootCB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_margin="4dp"
+        android:checked="true"
+        android:text="Start on boot"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="8dp"
+        android:layout_alignLeft="@+id/radiusSB"
+        android:layout_alignRight="@+id/radiusSB"
+        android:layout_below="@+id/radiusSB" />
+
+</RelativeLayout>
