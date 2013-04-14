@@ -16,8 +16,10 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getWindow().setFormat(PixelFormat.RGBA_8888);
-		Intent i = new Intent(this, SettingsActivity.class);
-		startActivity(i);
+		if (!BootReceiver.boot_up) {
+			Intent i = new Intent(this, SettingsActivity.class);
+			startActivity(i);
+		}
 		StandOutWindow.show(this, RoundedCorner.class, 0);
 		StandOutWindow.show(this, RoundedCorner.class, 1);
 		StandOutWindow.show(this, RoundedCorner.class, 2);

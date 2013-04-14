@@ -16,9 +16,6 @@ public class BootReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		boot_up = true;
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		boot = prefs.getBoolean("boot", true);
-		Log.d("boot", boot + "");
 		if (boot) {
 			Intent i = new Intent(context, MainActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
