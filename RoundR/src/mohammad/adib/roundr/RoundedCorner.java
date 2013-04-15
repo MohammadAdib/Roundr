@@ -74,7 +74,7 @@ public class RoundedCorner extends StandOutWindow {
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		// Check if this corner is enabled
 		if (prefs.getBoolean("corner" + corner, true)) {
-			int size = pxFromDp(prefs.getInt("radius", 8));
+			int size = pxFromDp(prefs.getInt("radius", 10));
 			switch (corner) {
 			case 0:
 				return new StandOutLayoutParams(corner, size, size, 0, 0, 1, 1);

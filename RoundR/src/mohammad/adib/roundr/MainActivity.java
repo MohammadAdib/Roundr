@@ -23,7 +23,6 @@ public class MainActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getWindow().setFormat(PixelFormat.RGBA_8888);
 		if (!BootReceiver.boot_up) {
 			Intent i = new Intent(this, SettingsActivity.class);
 			startActivity(i);

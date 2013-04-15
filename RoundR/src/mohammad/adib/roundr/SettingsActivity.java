@@ -40,7 +40,7 @@ public class SettingsActivity extends Activity {
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean boot = prefs.getBoolean("boot", true);
 		boolean notification = prefs.getBoolean("notification", true);
-		int radius = prefs.getInt("radius", 8);
+		int radius = prefs.getInt("radius", 10);
 		// determines which corners to show
 		boolean c0 = prefs.getBoolean("corner0", true);
 		boolean c1 = prefs.getBoolean("corner1", true);
@@ -138,7 +138,7 @@ public class SettingsActivity extends Activity {
 
 		});
 		radiusSB.setProgress(radius - 2);
-		radiusTV.setText("Corner Radius: " + (radius - 2) + "dp");
+		radiusTV.setText("Corner Radius: " + radius + "dp");
 		radiusSB.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 			@Override
