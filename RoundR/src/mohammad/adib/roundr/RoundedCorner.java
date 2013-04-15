@@ -86,7 +86,8 @@ public class RoundedCorner extends StandOutWindow {
 				return new StandOutLayoutParams(corner, size, size, StandOutLayoutParams.BOTTOM, StandOutLayoutParams.RIGHT, 1, 1);
 			}
 		}
-		return new StandOutLayoutParams(corner, 10, 1, -1, -1, 1, 1);
+		// Outside of screen
+		return new StandOutLayoutParams(corner, 1, 1, -1, -1, 1, 1);
 
 	}
 
