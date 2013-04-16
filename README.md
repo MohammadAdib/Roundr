@@ -1,7 +1,7 @@
 RoundR
 ======
 ### Introducing RoundR
-RoundR serves a simple purpose; To round the corners of your screen.
+RoundR serves a simple purpose; To round the corners of your screen. RoundR is licensed under Apache 2.0.
 
 ### Functionality
 RoundR takes advantage of the fact that regardless of the device's color, the screen is surrounded with a pitch black border, the corners of which are rarely ever touched. RoundR places four small overlays at the corners of the display, to simulate a rounded screen.
