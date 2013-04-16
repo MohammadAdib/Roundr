@@ -1,5 +1,21 @@
 package mohammad.adib.roundr;
 
+/**
+ * Copyright 2013 Mohammad Adib
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
 import wei.mark.standout.StandOutWindow;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -23,6 +39,8 @@ import android.widget.ToggleButton;
 
 public class SettingsActivity extends Activity {
 
+	public boolean running = false;
+
 	/**
 	 * Settings Dialog Theme can be changed via Manifest
 	 * 
@@ -30,10 +48,12 @@ public class SettingsActivity extends Activity {
 	 * 
 	 *         Contributors: Mark Wei
 	 * 
+	 * 
 	 */
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		running = true;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.settings);
 		// Read saved preferences
@@ -114,12 +134,7 @@ public class SettingsActivity extends Activity {
 				if (!isChecked) {
 					final int apiLevel = Build.VERSION.SDK_INT;
 					if (apiLevel >= 16) { // above 4.1
-						new AlertDialog.Builder(SettingsActivity.this).setTitle("Required by Android").setMessage("The notification prevents Android from killing RoundR in low memory situations.\n\nOn Android 4.1+ devices, it can be disabled via the RoundR App Info.").setNegativeButton("Make the icon invisible", new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
-								prefs.edit().putBoolean("notification", false).commit();
-								StandOutWindow.sendData(SettingsActivity.this, RoundedCorner.class, 0, RoundedCorner.NOTIFICATION_CODE, new Bundle(), RoundedCorner.class, 0);
-							}
-						}).setPositiveButton("App Info", new DialogInterface.OnClickListener() {
+						new AlertDialog.Builder(SettingsActivity.this).setTitle("Required by Android").setMessage("The notification prevents Android from killing RoundR in low memory situations.\n\nOn Android 4.1+ devices, it can be disabled via the RoundR App Info.").setPositiveButton("Go to RoundR App Info", new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
 								showInstalledAppDetails("mohammad.adib.roundr");
 							}

@@ -1,13 +1,32 @@
 package mohammad.adib.roundr;
 
+/**
+ * Copyright 2013 Mohammad Adib
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+
 import wei.mark.standout.StandOutWindow;
 import wei.mark.standout.constants.StandOutFlags;
 import wei.mark.standout.ui.Window;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -153,6 +172,35 @@ public class RoundedCorner extends StandOutWindow {
 		return "Rounded Corners";
 	}
 
+	@SuppressLint("InlinedApi")
+	@SuppressWarnings("deprecation")
+	@Override
+	public Notification getPersistentNotification(int id) {
+		int icon = getAppIcon();
+		long when = System.currentTimeMillis();
+		Context c = getApplicationContext();
+		String contentTitle = getPersistentNotificationTitle(id);
+		String contentText = getPersistentNotificationMessage(id);
+
+		Intent notificationIntent = getPersistentNotificationIntent(id);
+
+		PendingIntent contentIntent = PendingIntent.getService(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		// 4.1+ Low priority notification
+		final int apiLevel = Build.VERSION.SDK_INT;
+		if (apiLevel >= 16) {
+			Notification.Builder mBuilder = new Notification.Builder(this).setSmallIcon(getAppIcon()).setContentTitle(contentTitle).setContentText(contentText).setPriority(Notification.PRIORITY_MIN).setContentIntent(contentIntent);
+			return mBuilder.build();
+		}
+
+		String tickerText = String.format("%s: %s", contentTitle, contentText);
+
+		Notification notification = new Notification(icon, tickerText, when);
+		notification.setLatestEventInfo(c, contentTitle, contentText, contentIntent);
+
+		return notification;
+	}
+
 	@Override
 	public boolean onShow(final int corner, final Window window) {
 		running = true;
@@ -195,6 +243,7 @@ public class RoundedCorner extends StandOutWindow {
 			updateViewLayout(1, getParams(1, window));
 			updateViewLayout(2, getParams(2, window));
 			updateViewLayout(3, getParams(3, window));
+			System.gc();
 		} else if (requestCode == NOTIFICATION_CODE) {
 			if (!prefs.getBoolean("notification", true)) {
 				// Hide Notification Icon
