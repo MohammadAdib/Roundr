@@ -8,17 +8,17 @@ package wei.mark.standout;
 
 public final class R {
 	public static final class id {
-		public static final int content = 0x7f080013;
+		public static final int content = 0x7f080014;
 		public static final int icon = 0x7f080002;
-		public static final int body = 0x7f08001a;
-		public static final int window_icon = 0x7f080015;
-		public static final int title = 0x7f080016;
-		public static final int corner = 0x7f08001b;
-		public static final int hide = 0x7f080017;
-		public static final int titlebar = 0x7f080014;
+		public static final int body = 0x7f08001b;
+		public static final int window_icon = 0x7f080016;
+		public static final int title = 0x7f080017;
+		public static final int corner = 0x7f08001c;
+		public static final int hide = 0x7f080018;
+		public static final int titlebar = 0x7f080015;
 		public static final int description = 0x7f080003;
-		public static final int maximize = 0x7f080018;
-		public static final int close = 0x7f080019;
+		public static final int maximize = 0x7f080019;
+		public static final int close = 0x7f08001a;
 	}
 	public static final class color {
 		public static final int ics_blue = 0x7f050000;

@@ -59,7 +59,7 @@ public class RoundedCorner extends StandOutWindow {
 
 	@Override
 	public int getAppIcon() {
-		return R.drawable.r;
+		return R.drawable.nothing;
 	}
 
 	@Override
@@ -206,27 +206,19 @@ public class RoundedCorner extends StandOutWindow {
 		running = true;
 		if (corner == 0) {
 			/**
-			 * TODO: Not the best way to determine change in screen orientation
-			 * Required because switching from portrait to landscape requires
-			 * corner 2 and 4 to be repositioned to the new "end" of the screen.
+			 * Fix for ROMs with expanded desktop & YouTube also
 			 */
 			new Thread(new Runnable() {
-
-				private int lastO; // o for orientation
 
 				@Override
 				public void run() {
 					while (true) {
-						int o = getResources().getConfiguration().orientation;
 						try {
-							if (lastO != o) {
-								sendData(corner, RoundedCorner.class, corner, REFRESH_CODE, new Bundle());
-							}
-							Thread.sleep(500); // check every 500ms
+							sendData(corner, RoundedCorner.class, corner, REFRESH_CODE, new Bundle());
+							Thread.sleep(500); // refresh every 500ms
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-						lastO = o;
 					}
 				}
 
@@ -243,7 +235,6 @@ public class RoundedCorner extends StandOutWindow {
 			updateViewLayout(1, getParams(1, window));
 			updateViewLayout(2, getParams(2, window));
 			updateViewLayout(3, getParams(3, window));
-			System.gc();
 		} else if (requestCode == NOTIFICATION_CODE) {
 			if (!prefs.getBoolean("notification", true)) {
 				// Hide Notification Icon
