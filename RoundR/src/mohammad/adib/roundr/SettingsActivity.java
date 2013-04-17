@@ -188,8 +188,6 @@ public class SettingsActivity extends Activity {
 			}
 
 		});
-		// Fun animation
-		findViewById(R.id.rl).startAnimation(AnimationUtils.loadAnimation(this, R.anim.show));
 	}
 
 	@SuppressLint("InlinedApi")

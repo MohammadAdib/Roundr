@@ -8,27 +8,27 @@ package wei.mark.standout;
 
 public final class R {
 	public static final class id {
-		public static final int content = 0x7f080014;
-		public static final int icon = 0x7f080002;
-		public static final int body = 0x7f08001b;
-		public static final int window_icon = 0x7f080016;
-		public static final int title = 0x7f080017;
-		public static final int corner = 0x7f08001c;
-		public static final int hide = 0x7f080018;
-		public static final int titlebar = 0x7f080015;
-		public static final int description = 0x7f080003;
-		public static final int maximize = 0x7f080019;
-		public static final int close = 0x7f08001a;
+		public static final int content = 0x7f070014;
+		public static final int icon = 0x7f070002;
+		public static final int body = 0x7f07001b;
+		public static final int window_icon = 0x7f070016;
+		public static final int title = 0x7f070017;
+		public static final int corner = 0x7f07001c;
+		public static final int hide = 0x7f070018;
+		public static final int titlebar = 0x7f070015;
+		public static final int description = 0x7f070003;
+		public static final int maximize = 0x7f070019;
+		public static final int close = 0x7f07001a;
 	}
 	public static final class color {
-		public static final int ics_blue = 0x7f050000;
+		public static final int ics_blue = 0x7f040000;
 	}
 	public static final class string {
-		public static final int window_icon = 0x7f060000;
-		public static final int maximize = 0x7f060004;
-		public static final int corner = 0x7f060003;
-		public static final int hide = 0x7f060001;
-		public static final int close = 0x7f060002;
+		public static final int window_icon = 0x7f050000;
+		public static final int maximize = 0x7f050004;
+		public static final int corner = 0x7f050003;
+		public static final int hide = 0x7f050001;
+		public static final int close = 0x7f050002;
 	}
 	public static final class layout {
 		public static final int system_window_decorators = 0x7f030003;

@@ -59,7 +59,7 @@ public class RoundedCorner extends StandOutWindow {
 
 	@Override
 	public int getAppIcon() {
-		return R.drawable.nothing;
+		return R.drawable.ic_launcher;
 	}
 
 	@Override
