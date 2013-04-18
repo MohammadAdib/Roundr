@@ -60,6 +60,7 @@ public class SettingsActivity extends Activity {
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean boot = prefs.getBoolean("boot", true);
 		boolean notification = prefs.getBoolean("notification", true);
+		boolean isIconOn = prefs.getBoolean("icon", false);
 		int radius = prefs.getInt("radius", 10);
 		// determines which corners to show
 		boolean c0 = prefs.getBoolean("corner0", true);
@@ -73,6 +74,7 @@ public class SettingsActivity extends Activity {
 		CheckBox blCB = (CheckBox) findViewById(R.id.blCB); // Bottom left
 		CheckBox brCB = (CheckBox) findViewById(R.id.brCB); // Bottom right
 		CheckBox notificationCB = (CheckBox) findViewById(R.id.notificationCB);
+		CheckBox iconCB = (CheckBox) findViewById(R.id.iconCB);
 		final TextView radiusTV = (TextView) findViewById(R.id.radiusTV);
 		SeekBar radiusSB = (SeekBar) findViewById(R.id.radiusSB);
 		// Set view properties
@@ -152,6 +154,17 @@ public class SettingsActivity extends Activity {
 			}
 
 		});
+		
+		iconCB.setChecked(isIconOn);
+		iconCB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				// TODO Auto-generated method stub
+				prefs.edit().putBoolean("icon",isChecked).commit();
+			}
+		});
+		
 		radiusSB.setProgress(radius - 2);
 		radiusTV.setText("Corner Radius: " + radius + "dp");
 		radiusSB.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {

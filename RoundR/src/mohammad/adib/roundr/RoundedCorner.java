@@ -32,6 +32,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -178,7 +179,7 @@ public class RoundedCorner extends StandOutWindow {
 		return "Rounded Corners";
 	}
 
-	@SuppressLint("InlinedApi")
+	@SuppressLint({ "InlinedApi", "NewApi" })
 	@SuppressWarnings("deprecation")
 	@Override
 	public Notification getPersistentNotification(int id) {
@@ -195,8 +196,27 @@ public class RoundedCorner extends StandOutWindow {
 		// 4.1+ Low priority notification
 		final int apiLevel = Build.VERSION.SDK_INT;
 		if (apiLevel >= 16) {
-			Notification.Builder mBuilder = new Notification.Builder(this).setContent(new RemoteViews(getPackageName(), R.layout.notification)).setSmallIcon(getAppIcon()).setContentTitle(contentTitle).setContentText(contentText).setPriority(Notification.PRIORITY_MIN).setContentIntent(contentIntent);
+			if(prefs.getBoolean("icon", true)){
+				Notification.Builder mBuilder =
+				        new Notification.Builder(this)
+				        .setSmallIcon(getAppIcon())
+				        .setContentTitle(contentTitle)
+				        .setContentText(contentText)
+				        .setPriority(Notification.PRIORITY_MIN)
+				        .setContentIntent(contentIntent);
 			return mBuilder.build();
+			}
+			else{
+				Notification.Builder mBuilder = 
+						new Notification.Builder(this)
+						.setContent(new RemoteViews(getPackageName(), R.layout.notification))
+						.setSmallIcon(getAppIcon())
+						.setContentTitle(contentTitle)
+						.setContentText(contentText)
+						.setPriority(Notification.PRIORITY_MIN)
+						.setContentIntent(contentIntent);
+			return mBuilder.build();
+			}
 		}
 
 		String tickerText = String.format("%s: %s", contentTitle, contentText);
