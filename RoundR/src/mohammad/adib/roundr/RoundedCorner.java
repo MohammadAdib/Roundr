@@ -23,15 +23,19 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 
 public class RoundedCorner extends StandOutWindow {
 
@@ -46,9 +50,11 @@ public class RoundedCorner extends StandOutWindow {
 	 */
 
 	public static final String ACTION_SETTINGS = "SETTINGS";
+	public static final String BCAST_CONFIGCHANGED = "android.intent.action.CONFIGURATION_CHANGED";
 	public static final int REFRESH_CODE = 1;
 	public static final int NOTIFICATION_CODE = 2;
 	public static final int CLOSE_CODE = 3;
+	private int wildcard = 0; // Corner 0 applies to all corners
 	private SharedPreferences prefs;
 	public static boolean running = false;
 
@@ -59,7 +65,7 @@ public class RoundedCorner extends StandOutWindow {
 
 	@Override
 	public int getAppIcon() {
-		return R.drawable.ic_launcher;
+		return R.drawable.r_icon;
 	}
 
 	@Override
@@ -189,7 +195,7 @@ public class RoundedCorner extends StandOutWindow {
 		// 4.1+ Low priority notification
 		final int apiLevel = Build.VERSION.SDK_INT;
 		if (apiLevel >= 16) {
-			Notification.Builder mBuilder = new Notification.Builder(this).setSmallIcon(getAppIcon()).setContentTitle(contentTitle).setContentText(contentText).setPriority(Notification.PRIORITY_MIN).setContentIntent(contentIntent);
+			Notification.Builder mBuilder = new Notification.Builder(this).setContent(new RemoteViews(getPackageName(), R.layout.notification)).setSmallIcon(getAppIcon()).setContentTitle(contentTitle).setContentText(contentText).setPriority(Notification.PRIORITY_MIN).setContentIntent(contentIntent);
 			return mBuilder.build();
 		}
 
@@ -204,26 +210,9 @@ public class RoundedCorner extends StandOutWindow {
 	@Override
 	public boolean onShow(final int corner, final Window window) {
 		running = true;
-		if (corner == 0) {
-			/**
-			 * Fix for ROMs with expanded desktop & YouTube also
-			 */
-			new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					while (true) {
-						try {
-							sendData(corner, RoundedCorner.class, corner, REFRESH_CODE, new Bundle());
-							Thread.sleep(500); // refresh every 500ms
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				}
-
-			}).start();
-		}
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(BCAST_CONFIGCHANGED);
+		this.registerReceiver(mBroadcastReceiver, filter);
 		return false;
 	}
 
@@ -249,4 +238,17 @@ public class RoundedCorner extends StandOutWindow {
 			}
 		}
 	}
+
+	/**
+	 * Orientation Change Listener
+	 */
+	public BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent myIntent) {
+			if (myIntent.getAction().equals(BCAST_CONFIGCHANGED)) {
+				Log.d("OrientationChange", "received");
+				sendData(wildcard, RoundedCorner.class, wildcard, REFRESH_CODE, new Bundle());
+			}
+		}
+	};
 }
