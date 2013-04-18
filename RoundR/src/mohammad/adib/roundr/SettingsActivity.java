@@ -171,6 +171,8 @@ public class SettingsActivity extends Activity {
 
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				prefs.edit().putInt("radius", seekBar.getProgress() + 2).commit();
+				radiusTV.setText("Corner Radius: " + (seekBar.getProgress() + 2) + "dp");
 			}
 
 			@Override
