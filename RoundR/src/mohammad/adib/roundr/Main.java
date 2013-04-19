@@ -22,7 +22,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class MainActivity extends Activity {
+public class Main extends Activity {
 
 	/**
 	 * Main Activity that launches the 4 floating windows (corners)
@@ -39,13 +39,13 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (!BootReceiver.boot_up) {
-			Intent i = new Intent(this, SettingsActivity.class);
+			Intent i = new Intent(this, Settings.class);
 			startActivity(i);
 		}
-		StandOutWindow.show(this, RoundedCorner.class, 0);
-		StandOutWindow.show(this, RoundedCorner.class, 1);
-		StandOutWindow.show(this, RoundedCorner.class, 2);
-		StandOutWindow.show(this, RoundedCorner.class, 3);
+		StandOutWindow.show(this, Corner.class, 0);
+		StandOutWindow.show(this, Corner.class, 1);
+		StandOutWindow.show(this, Corner.class, 2);
+		StandOutWindow.show(this, Corner.class, 3);
 		finish();
 	}
 

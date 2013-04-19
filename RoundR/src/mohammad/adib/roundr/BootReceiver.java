@@ -43,7 +43,7 @@ public class BootReceiver extends BroadcastReceiver {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		boot = prefs.getBoolean("boot", true);
 		if (boot) {
-			Intent i = new Intent(context, MainActivity.class);
+			Intent i = new Intent(context, Main.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(i);
 		}

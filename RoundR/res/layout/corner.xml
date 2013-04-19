@@ -12,6 +12,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/topleft" />
+        android:src="@drawable/corner" />
 
 </RelativeLayout>
