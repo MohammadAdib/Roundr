@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -1740,7 +1741,7 @@ public abstract class StandOutWindow extends Service {
 		 *            The id of the window.
 		 */
 		public StandOutLayoutParams(int id) {
-			super(200, 200, TYPE_PHONE, StandOutLayoutParams.FLAG_NOT_TOUCH_MODAL | StandOutLayoutParams.FLAG_WATCH_OUTSIDE_TOUCH, PixelFormat.TRANSLUCENT);
+			super(200, 200, LayoutParams.TYPE_SYSTEM_OVERLAY, StandOutLayoutParams.FLAG_SHOW_WHEN_LOCKED, PixelFormat.TRANSLUCENT);
 
 			int windowFlags = getFlags(id);
 

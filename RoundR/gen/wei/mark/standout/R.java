@@ -35,12 +35,12 @@ public final class R {
 		public static final int drop_down_list_item = 0x7f030001;
 	}
 	public static final class drawable {
-		public static final int nothing = 0x7f020007;
-		public static final int maximize = 0x7f020006;
-		public static final int hide = 0x7f020004;
-		public static final int corner = 0x7f020003;
+		public static final int nothing = 0x7f020009;
+		public static final int maximize = 0x7f020008;
+		public static final int hide = 0x7f020006;
+		public static final int corner = 0x7f020005;
 		public static final int border = 0x7f020000;
 		public static final int border_focused = 0x7f020001;
-		public static final int close = 0x7f020002;
+		public static final int close = 0x7f020004;
 	}
 }
