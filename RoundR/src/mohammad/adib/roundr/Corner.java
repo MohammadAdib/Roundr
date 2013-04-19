@@ -55,15 +55,11 @@ public class Corner extends StandOutWindow {
 
 	public static final String ACTION_SETTINGS = "SETTINGS";
 	public static final String BCAST_CONFIGCHANGED = "android.intent.action.CONFIGURATION_CHANGED";
-	public static final int REFRESH_CODE = 1;
-	public static final int NOTIFICATION_CODE = 2;
+	public static final int UPDATE_CODE = 2;
+	public static final int NOTIFICATION_CODE = 3;
 	public static final int wildcard = 0; // Corner 0 applies to all corners
 	private SharedPreferences prefs;
 	public static boolean running = false;
-	// Algorithmic generates the corners via code.
-	// Turning it off generates the corners from scaling a 128x128 corner
-	// Off by default
-	private boolean algorithmic = false;
 
 	@Override
 	public String getAppName() {
@@ -81,17 +77,16 @@ public class Corner extends StandOutWindow {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 		ImageView v = (ImageView) inflater.inflate(R.layout.corner, frame, true).findViewById(R.id.iv);
 		// Top left by default
-		Bitmap cornerBitmap = algorithmic ? createAlgorithmicCorner() : createScaledImageCorner();
-		v.setImageBitmap(cornerBitmap);
+		v.setImageDrawable(getResources().getDrawable(R.drawable.topleft));
 		switch (corner) {
 		case 1:
-			v.setRotation(90);
+			v.setImageDrawable(getResources().getDrawable(R.drawable.topright));
 			break;
 		case 2:
-			v.setRotationX(180);
+			v.setImageDrawable(getResources().getDrawable(R.drawable.bottomleft));
 			break;
 		case 3:
-			v.setRotation(180);
+			v.setImageDrawable(getResources().getDrawable(R.drawable.bottomright));
 			break;
 		}
 	}
@@ -108,66 +103,21 @@ public class Corner extends StandOutWindow {
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		// Check if this corner is enabled
 		if (prefs.getBoolean("corner" + corner, true)) {
-			int size = pxFromDp(prefs.getInt("radius", 10));
+			int radius = pxFromDp(prefs.getInt("radius", 10));
 			switch (corner) {
 			case 0:
-				return new StandOutLayoutParams(corner, size, size, 0, 0, 1, 1);
+				return new StandOutLayoutParams(corner, radius, radius, 0, 0, 1, 1);
 			case 1:
-				return new StandOutLayoutParams(corner, size, size, StandOutLayoutParams.RIGHT, 0, 1, 1);
+				return new StandOutLayoutParams(corner, radius, radius, StandOutLayoutParams.RIGHT, 0, 1, 1);
 			case 2:
-				return new StandOutLayoutParams(corner, size, size, 0, StandOutLayoutParams.RIGHT, 1, 1);
+				return new StandOutLayoutParams(corner, radius, radius, 0, StandOutLayoutParams.RIGHT, 1, 1);
 			case 3:
-				return new StandOutLayoutParams(corner, size, size, StandOutLayoutParams.BOTTOM, StandOutLayoutParams.RIGHT, 1, 1);
+				return new StandOutLayoutParams(corner, radius, radius, StandOutLayoutParams.BOTTOM, StandOutLayoutParams.RIGHT, 1, 1);
 			}
 		}
 		// Outside of screen
 		return new StandOutLayoutParams(corner, 1, 1, -1, -1, 1, 1);
 
-	}
-
-	/**
-	 * Thanks to Alexis for developing the method to create anti-aliased corners
-	 * (not used by default)
-	 * 
-	 * @return the top left corner
-	 */
-	private Bitmap createAlgorithmicCorner() {
-		int radius = pxFromDp(prefs.getInt("radius", 10));
-		int width = radius * 2;
-		int[] pixels = new int[width * width];
-		double oneMinusHardnessFactor = 0;
-		int index = 0;
-		int pixel = 0;
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < width; j++) {
-				float hDistance = ((float) i) - width + 0.5f;
-				float vDistance = ((float) j) - width + 0.5f;
-				double distance = Math.sqrt((hDistance * hDistance) + ((vDistance * vDistance)));
-				pixel = Color.BLACK;
-				if (distance < width) {
-					double factor = distance / width;
-					double opacityFactor = 0.0f;
-					if (factor > 1) {
-						factor -= 1;
-						factor = (factor / oneMinusHardnessFactor) * Math.PI / 2;
-						opacityFactor = Math.sin(factor);
-					}
-					pixel &= 0x00FFFFFF;
-					pixel |= ((int) (opacityFactor * 255)) << 24;
-
-				}
-				pixels[index] = pixel;
-				index++;
-			}
-		}
-		Bitmap bitmap = Bitmap.createBitmap(pixels, width, width, Config.ARGB_8888);
-		return bitmap;
-	}
-
-	private Bitmap createScaledImageCorner() {
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-		return BitmapFactory.decodeResource(getResources(), R.drawable.corner, options);
 	}
 
 	@Override
@@ -272,7 +222,8 @@ public class Corner extends StandOutWindow {
 	@Override
 	public void onReceiveData(int corner, int requestCode, Bundle data, Class<? extends StandOutWindow> fromCls, int fromId) {
 		Window window = getWindow(corner);
-		if (requestCode == REFRESH_CODE) {
+		if (requestCode == UPDATE_CODE) {
+			// Update the corners when device is rotated
 			updateViewLayout(3, getParams(3, window));
 			updateViewLayout(2, getParams(2, window));
 			updateViewLayout(1, getParams(1, window));
@@ -300,7 +251,7 @@ public class Corner extends StandOutWindow {
 		public void onReceive(Context context, Intent myIntent) {
 			if (myIntent.getAction().equals(BCAST_CONFIGCHANGED)) {
 				Log.d("OrientationChange", "received");
-				sendData(wildcard, Corner.class, wildcard, REFRESH_CODE, new Bundle());
+				sendData(wildcard, Corner.class, wildcard, UPDATE_CODE, new Bundle());
 			}
 		}
 	};
