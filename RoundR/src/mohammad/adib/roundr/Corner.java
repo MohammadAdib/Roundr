@@ -28,6 +28,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -37,7 +41,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
 
-public class RoundedCorner extends StandOutWindow {
+public class Corner extends StandOutWindow {
 
 	/**
 	 * The individual floating window that sits at one of the corners of the
@@ -57,6 +61,10 @@ public class RoundedCorner extends StandOutWindow {
 	private int wildcard = 0; // Corner 0 applies to all corners
 	private SharedPreferences prefs;
 	public static boolean running = false;
+	// Algorithmic generates the corners via code.
+	// Turning it off generates the corners from scaling a 128x128 corner
+	// Off by default
+	private boolean algorithmic = false;
 
 	@Override
 	public String getAppName() {
@@ -73,21 +81,23 @@ public class RoundedCorner extends StandOutWindow {
 		// Set the image based on window corner
 		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 		ImageView v = (ImageView) inflater.inflate(R.layout.corner, frame, true).findViewById(R.id.iv);
-		v.setImageDrawable(getResources().getDrawable(R.drawable.topleft));
+		// Top left by default
+		Bitmap cornerBitmap = algorithmic ? createAlgorithmicCorner() : createScaledImageCorner();
+		v.setImageBitmap(cornerBitmap);
 		switch (corner) {
 		case 1:
-			v.setImageDrawable(getResources().getDrawable(R.drawable.topright));
+			v.setRotation(90);
 			break;
 		case 2:
-			v.setImageDrawable(getResources().getDrawable(R.drawable.bottomleft));
+			v.setRotationX(180);
 			break;
 		case 3:
-			v.setImageDrawable(getResources().getDrawable(R.drawable.bottomright));
+			v.setRotation(180);
 			break;
 		}
 	}
 
-	private int pxFromDp(float dp) {
+	private int pxFromDp(double dp) {
 		return (int) (dp * getResources().getDisplayMetrics().density);
 	}
 
@@ -116,6 +126,51 @@ public class RoundedCorner extends StandOutWindow {
 
 	}
 
+	/**
+	 * Thanks to Alexis for developing the method to create anti-aliased corners
+	 * (not used by default)
+	 * 
+	 * @return the top left corner
+	 */
+	private Bitmap createAlgorithmicCorner() {
+		int radius = pxFromDp(prefs.getInt("radius", 10));
+		int width = radius * 2;
+		int[] pixels = new int[width * width];
+		double oneMinusHardnessFactor = 0;
+		int index = 0;
+		int pixel = 0;
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < width; j++) {
+				float hDistance = ((float) i) - width + 0.5f;
+				float vDistance = ((float) j) - width + 0.5f;
+				double distance = Math.sqrt((hDistance * hDistance) + ((vDistance * vDistance)));
+				pixel = Color.BLACK;
+				if (distance < width) {
+					double factor = distance / width;
+					double opacityFactor = 0.0f;
+					if (factor > 1) {
+						factor -= 1;
+						factor = (factor / oneMinusHardnessFactor) * Math.PI / 2;
+						opacityFactor = Math.sin(factor);
+					}
+					pixel &= 0x00FFFFFF;
+					pixel |= ((int) (opacityFactor * 255)) << 24;
+
+				}
+				pixels[index] = pixel;
+				index++;
+			}
+		}
+		Bitmap bitmap = Bitmap.createBitmap(pixels, width, width, Config.ARGB_8888);
+		return bitmap;
+	}
+
+	private Bitmap createScaledImageCorner() {
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+		return BitmapFactory.decodeResource(getResources(), R.drawable.corner, options);
+	}
+
 	@Override
 	public int getFlags(int corner) {
 		return super.getFlags(corner) | StandOutFlags.FLAG_WINDOW_FOCUSABLE_DISABLE | StandOutFlags.FLAG_WINDOW_EDGE_LIMITS_ENABLE;
@@ -128,7 +183,7 @@ public class RoundedCorner extends StandOutWindow {
 
 	@Override
 	public Intent getPersistentNotificationIntent(int corner) {
-		return new Intent(this, RoundedCorner.class).putExtra("id", corner).setAction(ACTION_SETTINGS);
+		return new Intent(this, Corner.class).putExtra("id", corner).setAction(ACTION_SETTINGS);
 	}
 
 	@Override
@@ -136,7 +191,6 @@ public class RoundedCorner extends StandOutWindow {
 		if (intent != null) {
 			String action = intent.getAction();
 			int corner = intent.getIntExtra("id", DEFAULT_ID);
-			// this will interfere with getPersistentNotification()
 			if (corner == ONGOING_NOTIFICATION_ID) {
 				throw new RuntimeException("ID cannot equals StandOutWindow.ONGOING_NOTIFICATION_ID");
 			}
@@ -144,7 +198,7 @@ public class RoundedCorner extends StandOutWindow {
 			if (ACTION_SHOW.equals(action) || ACTION_RESTORE.equals(action)) {
 				show(corner);
 			} else if (ACTION_SETTINGS.equals(action)) {
-				Intent intentS = new Intent(this, SettingsActivity.class);
+				Intent intentS = new Intent(this, Settings.class);
 				intentS.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intentS);
 			} else if (ACTION_HIDE.equals(action)) {
@@ -247,7 +301,7 @@ public class RoundedCorner extends StandOutWindow {
 		public void onReceive(Context context, Intent myIntent) {
 			if (myIntent.getAction().equals(BCAST_CONFIGCHANGED)) {
 				Log.d("OrientationChange", "received");
-				sendData(wildcard, RoundedCorner.class, wildcard, REFRESH_CODE, new Bundle());
+				sendData(wildcard, Corner.class, wildcard, REFRESH_CODE, new Bundle());
 			}
 		}
 	};

@@ -27,7 +27,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -37,7 +36,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-public class SettingsActivity extends Activity {
+public class Settings extends Activity {
 
 	public boolean running = false;
 
@@ -134,30 +133,32 @@ public class SettingsActivity extends Activity {
 				if (!isChecked) {
 					final int apiLevel = Build.VERSION.SDK_INT;
 					if (apiLevel >= 16) { // above 4.1
-						new AlertDialog.Builder(SettingsActivity.this).setTitle("Required by Android").setMessage("The notification prevents Android from killing RoundR in low memory situations.\n\nOn Android 4.1+ devices, it can be disabled via the RoundR App Info.").setPositiveButton("Go to RoundR App Info", new DialogInterface.OnClickListener() {
+						new AlertDialog.Builder(Settings.this).setTitle("Required by Android").setMessage("The notification prevents Android from killing RoundR in low memory situations.\n\nOn Android 4.1+ devices, it can be disabled via the RoundR App Info.").setPositiveButton("Go to RoundR App Info", new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
 								showInstalledAppDetails("mohammad.adib.roundr");
 							}
 						}).show();
 					} else { // below 4.1
-						new AlertDialog.Builder(SettingsActivity.this).setTitle("Required by Android").setMessage("The notification prevents Android from killing RoundR in low memory situations.\n\nOnly on Android 4.1+ devices, it can be disabled via the RoundR App Info. Unfortunately, your device is not running updated firmware. Check for updates with your carrier.").setNeutralButton("Make the icon invisible", new DialogInterface.OnClickListener() {
+						new AlertDialog.Builder(Settings.this).setTitle("Required by Android").setMessage("The notification prevents Android from killing RoundR in low memory situations.\n\nOnly on Android 4.1+ devices, it can be disabled via the RoundR App Info. Unfortunately, your device is not running updated firmware. Check for updates with your carrier.").setNeutralButton("Make the icon invisible", new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
 								prefs.edit().putBoolean("notification", false).commit();
-								StandOutWindow.sendData(SettingsActivity.this, RoundedCorner.class, 0, RoundedCorner.NOTIFICATION_CODE, new Bundle(), RoundedCorner.class, 0);
+								StandOutWindow.sendData(Settings.this, Corner.class, 0, Corner.NOTIFICATION_CODE, new Bundle(), Corner.class, 0);
 							}
 						}).show();
 					}
 				}
-				StandOutWindow.sendData(SettingsActivity.this, RoundedCorner.class, 0, RoundedCorner.NOTIFICATION_CODE, new Bundle(), RoundedCorner.class, 0);
+				StandOutWindow.sendData(Settings.this, Corner.class, 0, Corner.NOTIFICATION_CODE, new Bundle(), Corner.class, 0);
 			}
 
 		});
 		radiusSB.setProgress(radius - 2);
-		radiusTV.setText("Corner Radius: " + radius + "dp");
+		radiusTV.setText("Corner Radius: " + pxFromDp(radius));
 		radiusSB.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				prefs.edit().putInt("radius", seekBar.getProgress() + 2).commit();
+				radiusTV.setText("Corner Radius: " + pxFromDp(seekBar.getProgress() + 2));
 			}
 
 			@Override
@@ -166,8 +167,6 @@ public class SettingsActivity extends Activity {
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				prefs.edit().putInt("radius", seekBar.getProgress() + 2).commit();
-				radiusTV.setText("Corner Radius: " + (seekBar.getProgress() + 2) + "dp");
 				refresh();
 			}
 
@@ -178,12 +177,12 @@ public class SettingsActivity extends Activity {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					StandOutWindow.show(SettingsActivity.this, RoundedCorner.class, 0);
-					StandOutWindow.show(SettingsActivity.this, RoundedCorner.class, 1);
-					StandOutWindow.show(SettingsActivity.this, RoundedCorner.class, 2);
-					StandOutWindow.show(SettingsActivity.this, RoundedCorner.class, 3);
+					StandOutWindow.show(Settings.this, Corner.class, 0);
+					StandOutWindow.show(Settings.this, Corner.class, 1);
+					StandOutWindow.show(Settings.this, Corner.class, 2);
+					StandOutWindow.show(Settings.this, Corner.class, 3);
 				} else {
-					StandOutWindow.closeAll(SettingsActivity.this, RoundedCorner.class);
+					StandOutWindow.closeAll(Settings.this, Corner.class);
 				}
 			}
 
@@ -195,10 +194,14 @@ public class SettingsActivity extends Activity {
 	@SuppressLint("InlinedApi")
 	public void showInstalledAppDetails(String packageName) {
 		Intent intent = new Intent();
-		intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+		intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
 		Uri uri = Uri.fromParts("package", packageName, null);
 		intent.setData(uri);
 		startActivity(intent);
+	}
+
+	private int pxFromDp(double dp) {
+		return (int) (dp * getResources().getDisplayMetrics().density);
 	}
 
 	@Override
@@ -212,10 +215,10 @@ public class SettingsActivity extends Activity {
 	 * which in turn refreshes their size.
 	 */
 	public void refresh() {
-		StandOutWindow.sendData(SettingsActivity.this, RoundedCorner.class, 0, RoundedCorner.REFRESH_CODE, new Bundle(), RoundedCorner.class, 0);
-		StandOutWindow.sendData(SettingsActivity.this, RoundedCorner.class, 1, RoundedCorner.REFRESH_CODE, new Bundle(), RoundedCorner.class, 1);
-		StandOutWindow.sendData(SettingsActivity.this, RoundedCorner.class, 2, RoundedCorner.REFRESH_CODE, new Bundle(), RoundedCorner.class, 2);
-		StandOutWindow.sendData(SettingsActivity.this, RoundedCorner.class, 3, RoundedCorner.REFRESH_CODE, new Bundle(), RoundedCorner.class, 3);
+		StandOutWindow.sendData(Settings.this, Corner.class, 0, Corner.REFRESH_CODE, new Bundle(), Corner.class, 0);
+		StandOutWindow.sendData(Settings.this, Corner.class, 1, Corner.REFRESH_CODE, new Bundle(), Corner.class, 1);
+		StandOutWindow.sendData(Settings.this, Corner.class, 2, Corner.REFRESH_CODE, new Bundle(), Corner.class, 2);
+		StandOutWindow.sendData(Settings.this, Corner.class, 3, Corner.REFRESH_CODE, new Bundle(), Corner.class, 3);
 	}
 
 }
