@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mohammad.adib.roundr"
     android:versionCode="13"
-    android:versionName="1.9.1" >
+    android:versionName="1.9.1-bc90" >
 
     <uses-sdk
         android:minSdkVersion="7"
