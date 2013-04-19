@@ -57,8 +57,7 @@ public class Corner extends StandOutWindow {
 	public static final String BCAST_CONFIGCHANGED = "android.intent.action.CONFIGURATION_CHANGED";
 	public static final int REFRESH_CODE = 1;
 	public static final int NOTIFICATION_CODE = 2;
-	public static final int CLOSE_CODE = 3;
-	private int wildcard = 0; // Corner 0 applies to all corners
+	public static final int wildcard = 0; // Corner 0 applies to all corners
 	private SharedPreferences prefs;
 	public static boolean running = false;
 	// Algorithmic generates the corners via code.
@@ -274,10 +273,10 @@ public class Corner extends StandOutWindow {
 	public void onReceiveData(int corner, int requestCode, Bundle data, Class<? extends StandOutWindow> fromCls, int fromId) {
 		Window window = getWindow(corner);
 		if (requestCode == REFRESH_CODE) {
-			updateViewLayout(0, getParams(0, window));
-			updateViewLayout(1, getParams(1, window));
-			updateViewLayout(2, getParams(2, window));
 			updateViewLayout(3, getParams(3, window));
+			updateViewLayout(2, getParams(2, window));
+			updateViewLayout(1, getParams(1, window));
+			updateViewLayout(0, getParams(0, window));
 		} else if (requestCode == NOTIFICATION_CODE) {
 			if (!prefs.getBoolean("notification", true)) {
 				// Hide Notification Icon

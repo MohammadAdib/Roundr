@@ -215,10 +215,7 @@ public class Settings extends Activity {
 	 * which in turn refreshes their size.
 	 */
 	public void refresh() {
-		StandOutWindow.sendData(Settings.this, Corner.class, 0, Corner.REFRESH_CODE, new Bundle(), Corner.class, 0);
-		StandOutWindow.sendData(Settings.this, Corner.class, 1, Corner.REFRESH_CODE, new Bundle(), Corner.class, 1);
-		StandOutWindow.sendData(Settings.this, Corner.class, 2, Corner.REFRESH_CODE, new Bundle(), Corner.class, 2);
-		StandOutWindow.sendData(Settings.this, Corner.class, 3, Corner.REFRESH_CODE, new Bundle(), Corner.class, 3);
+		StandOutWindow.sendData(Settings.this, Corner.class, Corner.wildcard, Corner.REFRESH_CODE, new Bundle(), Corner.class, StandOutWindow.DISREGARD_ID);
 	}
 
 }
