@@ -147,9 +147,13 @@ public class Corner extends StandOutWindow {
 			if (ACTION_SHOW.equals(action) || ACTION_RESTORE.equals(action)) {
 				show(corner);
 			} else if (ACTION_SETTINGS.equals(action)) {
-				Intent intentS = new Intent(this, Settings.class);
-				intentS.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intentS);
+				try {
+					Intent intentS = new Intent(this, Settings.class);
+					intentS.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivity(intentS);
+				} catch (Exception e) {
+					// Addressing this issue: http://i.imgur.com/Op9kfy8.png
+				}
 			} else if (ACTION_HIDE.equals(action)) {
 				hide(corner);
 			} else if (ACTION_CLOSE.equals(action)) {

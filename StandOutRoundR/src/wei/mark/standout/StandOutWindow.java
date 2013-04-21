@@ -1741,7 +1741,8 @@ public abstract class StandOutWindow extends Service {
 		 *            The id of the window.
 		 */
 		public StandOutLayoutParams(int id) {
-			super(200, 200, LayoutParams.TYPE_SYSTEM_OVERLAY, StandOutLayoutParams.FLAG_SHOW_WHEN_LOCKED, PixelFormat.TRANSLUCENT);
+
+			super(200, 200, PreferenceManager.getDefaultSharedPreferences(StandOutWindow.this).getInt("type", LayoutParams.TYPE_SYSTEM_OVERLAY), PreferenceManager.getDefaultSharedPreferences(StandOutWindow.this).getInt("flags", StandOutLayoutParams.FLAG_SHOW_WHEN_LOCKED), PixelFormat.RGBA_8888);
 
 			int windowFlags = getFlags(id);
 
