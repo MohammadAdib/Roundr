@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.WindowManager.LayoutParams;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -60,6 +61,7 @@ public class Settings extends Activity {
 		boolean boot = prefs.getBoolean("boot", true);
 		boolean notification = prefs.getBoolean("notification", true);
 		boolean isIconOn = prefs.getBoolean("icon", false);
+		boolean overlap = prefs.getBoolean("overlap", true);
 		int radius = prefs.getInt("radius", 10);
 		// determines which corners to show
 		boolean c0 = prefs.getBoolean("corner0", true);
@@ -75,6 +77,7 @@ public class Settings extends Activity {
 		CheckBox notificationCB = (CheckBox) findViewById(R.id.notificationCB);
 		CheckBox iconCB = (CheckBox) findViewById(R.id.iconCB);
 		final TextView radiusTV = (TextView) findViewById(R.id.radiusTV);
+		CheckBox overlapCB = (CheckBox) findViewById(R.id.overlapCB);
 		SeekBar radiusSB = (SeekBar) findViewById(R.id.radiusSB);
 		// Set view properties
 		tlCB.setChecked(c0);
@@ -135,7 +138,7 @@ public class Settings extends Activity {
 				if (!isChecked) {
 					final int apiLevel = Build.VERSION.SDK_INT;
 					if (apiLevel >= 16) { // above 4.1
-						new AlertDialog.Builder(Settings.this).setTitle("Required by Android").setMessage("The notification prevents Android from killing RoundR in low memory situations.\n\nOn Android 4.1+ devices, it can be disabled via the RoundR App Info.").setPositiveButton("Go to RoundR App Info", new DialogInterface.OnClickListener() {
+						new AlertDialog.Builder(Settings.this).setTitle("Required by Android").setMessage("The notification prevents Android from killing RoundR in low memory situations.\n\nOn Android 4.1+ devices, it can be disabled via the App Info.").setPositiveButton("Continue", new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
 								showInstalledAppDetails("mohammad.adib.roundr");
 							}
@@ -161,6 +164,40 @@ public class Settings extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
 				prefs.edit().putBoolean("icon",isChecked).commit();
+			}
+		});
+		
+		overlapCB.setChecked(overlap);
+		overlapCB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				prefs.edit().putBoolean("overlap", isChecked).commit();
+				if (isChecked) {
+					prefs.edit().putInt("type", LayoutParams.TYPE_SYSTEM_OVERLAY).commit();
+					prefs.edit().putInt("flags", LayoutParams.FLAG_SHOW_WHEN_LOCKED).commit();
+				} else {
+					prefs.edit().putInt("type", LayoutParams.TYPE_SYSTEM_ALERT).commit();
+					// Recommended flags by Mark Wei
+					prefs.edit().putInt("flags", LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH).commit();
+				}
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						StandOutWindow.closeAll(Settings.this, Corner.class);
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						StandOutWindow.show(Settings.this, Corner.class, 0);
+						StandOutWindow.show(Settings.this, Corner.class, 1);
+						StandOutWindow.show(Settings.this, Corner.class, 2);
+						StandOutWindow.show(Settings.this, Corner.class, 3);
+					}
+
+				}).start();
 			}
 		});
 		

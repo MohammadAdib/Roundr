@@ -38,7 +38,7 @@ public class Main extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (!BootReceiver.boot_up) {
+		if (!BootReceiver.boot_up || Corner.running) {
 			Intent i = new Intent(this, Settings.class);
 			startActivity(i);
 		}

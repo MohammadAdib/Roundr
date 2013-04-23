@@ -1741,7 +1741,8 @@ public abstract class StandOutWindow extends Service {
 		 *            The id of the window.
 		 */
 		public StandOutLayoutParams(int id) {
-			super(200, 200, LayoutParams.TYPE_SYSTEM_OVERLAY, StandOutLayoutParams.FLAG_SHOW_WHEN_LOCKED, PixelFormat.TRANSLUCENT);
+
+			super(200, 200, PreferenceManager.getDefaultSharedPreferences(StandOutWindow.this).getInt("type", LayoutParams.TYPE_SYSTEM_OVERLAY), PreferenceManager.getDefaultSharedPreferences(StandOutWindow.this).getInt("flags", StandOutLayoutParams.FLAG_SHOW_WHEN_LOCKED), PixelFormat.RGBA_8888);
 
 			int windowFlags = getFlags(id);
 
@@ -1774,6 +1775,26 @@ public abstract class StandOutWindow extends Service {
 			this(id);
 			width = w;
 			height = h;
+		}
+
+		/**
+		 * Thanks to Jan Metten for adding this constructor to solve problems regarding corners auto-posititioning on fullscreen video as well as eliminating the need to broadcastreceive change in orientation!
+		 * @param id
+		 *            The id of the window.
+		 * @param w
+		 *            The width of the window.
+		 * @param h
+		 *            The height of the window.
+		 * @param gravity
+		 *            The gravity of the window.
+		 */
+		public StandOutLayoutParams(int id, int w, int h, int gravity) {
+			this(id);
+			width = w;
+			height = h;
+			x = 0;
+			y = 0;
+			this.gravity = gravity;
 		}
 
 		/**

@@ -36,7 +36,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -50,7 +50,7 @@ public class Corner extends StandOutWindow {
 	 * 
 	 * @author Mohammad Adib <m.a.adib96@gmail.com>
 	 * 
-	 *         Contributors: Mark Wei
+	 *         Contributors: Mark Wei, Jan Metten
 	 * 
 	 */
 
@@ -58,7 +58,7 @@ public class Corner extends StandOutWindow {
 	public static final String BCAST_CONFIGCHANGED = "android.intent.action.CONFIGURATION_CHANGED";
 	public static final int UPDATE_CODE = 2;
 	public static final int NOTIFICATION_CODE = 3;
-	public static final int wildcard = 0; // Corner 0 applies to all corners
+	public static final int wildcard = 0;
 	private SharedPreferences prefs;
 	public static boolean running = false;
 
@@ -105,15 +105,16 @@ public class Corner extends StandOutWindow {
 		// Check if this corner is enabled
 		if (prefs.getBoolean("corner" + corner, true)) {
 			int radius = pxFromDp(prefs.getInt("radius", 10));
+			// Thanks to Jan Metten for rewriting this based on gravity
 			switch (corner) {
 			case 0:
-				return new StandOutLayoutParams(corner, radius, radius, 0, 0, 1, 1);
+				return new StandOutLayoutParams(corner, radius, radius, Gravity.TOP | Gravity.LEFT);
 			case 1:
-				return new StandOutLayoutParams(corner, radius, radius, StandOutLayoutParams.RIGHT, 0, 1, 1);
+				return new StandOutLayoutParams(corner, radius, radius, Gravity.TOP | Gravity.RIGHT);
 			case 2:
-				return new StandOutLayoutParams(corner, radius, radius, 0, StandOutLayoutParams.RIGHT, 1, 1);
+				return new StandOutLayoutParams(corner, radius, radius, Gravity.BOTTOM | Gravity.LEFT);
 			case 3:
-				return new StandOutLayoutParams(corner, radius, radius, StandOutLayoutParams.BOTTOM, StandOutLayoutParams.RIGHT, 1, 1);
+				return new StandOutLayoutParams(corner, radius, radius, Gravity.BOTTOM | Gravity.RIGHT);
 			}
 		}
 		// Outside of screen
@@ -148,9 +149,13 @@ public class Corner extends StandOutWindow {
 			if (ACTION_SHOW.equals(action) || ACTION_RESTORE.equals(action)) {
 				show(corner);
 			} else if (ACTION_SETTINGS.equals(action)) {
-				Intent intentS = new Intent(this, Settings.class);
-				intentS.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intentS);
+				try {
+					Intent intentS = new Intent(this, Settings.class);
+					intentS.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivity(intentS);
+				} catch (Exception e) {
+					// Addressing this issue: http://i.imgur.com/Op9kfy8.png
+				}
 			} else if (ACTION_HIDE.equals(action)) {
 				hide(corner);
 			} else if (ACTION_CLOSE.equals(action)) {
@@ -233,9 +238,6 @@ public class Corner extends StandOutWindow {
 	@Override
 	public boolean onShow(final int corner, final Window window) {
 		running = true;
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(BCAST_CONFIGCHANGED);
-		this.registerReceiver(mBroadcastReceiver, filter);
 		return false;
 	}
 
@@ -250,7 +252,7 @@ public class Corner extends StandOutWindow {
 			updateViewLayout(0, getParams(0, window));
 		} else if (requestCode == NOTIFICATION_CODE) {
 			if (!prefs.getBoolean("notification", true)) {
-				// Hide Notification Icon
+				// Hide Notification Icon (for <= Gingerbread devices only)
 				NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 				Notification notification = getPersistentNotification(corner);
 				notification.icon = R.drawable.nothing;
@@ -262,17 +264,4 @@ public class Corner extends StandOutWindow {
 			}
 		}
 	}
-
-	/**
-	 * Orientation Change Listener
-	 */
-	public BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent myIntent) {
-			if (myIntent.getAction().equals(BCAST_CONFIGCHANGED)) {
-				Log.d("OrientationChange", "received");
-				sendData(wildcard, Corner.class, wildcard, UPDATE_CODE, new Bundle());
-			}
-		}
-	};
 }
