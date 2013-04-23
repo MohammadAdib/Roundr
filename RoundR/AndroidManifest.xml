@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mohammad.adib.roundr"
-    android:versionCode="16"
-    android:versionName="2.0.0.1" >
+    android:versionCode="17"
+    android:versionName="2.5.0" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -33,9 +33,6 @@
         </activity>
 
         <service android:name="mohammad.adib.roundr.Corner" >
-            <intent-filter>
-                <action android:name="android.intent.action.CONFIGURATION_CHANGED" />
-            </intent-filter>
         </service>
 
         <receiver
