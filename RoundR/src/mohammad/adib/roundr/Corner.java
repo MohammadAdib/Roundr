@@ -58,6 +58,7 @@ public class Corner extends StandOutWindow {
 	public static final String BCAST_CONFIGCHANGED = "android.intent.action.CONFIGURATION_CHANGED";
 	public static final int UPDATE_CODE = 2;
 	public static final int NOTIFICATION_CODE = 3;
+	public static final int wildcard = 0;
 	private SharedPreferences prefs;
 	public static boolean running = false;
 
