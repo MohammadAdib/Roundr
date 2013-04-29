@@ -1778,7 +1778,10 @@ public abstract class StandOutWindow extends Service {
 		}
 
 		/**
-		 * Thanks to Jan Metten for adding this constructor to solve problems regarding corners auto-posititioning on fullscreen video as well as eliminating the need to broadcastreceive change in orientation!
+		 * Thanks to Jan Metten for adding this constructor to solve problems
+		 * regarding corners auto-posititioning on fullscreen video as well as
+		 * eliminating the need to broadcastreceive change in orientation!
+		 * 
 		 * @param id
 		 *            The id of the window.
 		 * @param w
