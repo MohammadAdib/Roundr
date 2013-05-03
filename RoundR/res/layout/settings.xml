@@ -66,7 +66,7 @@
             android:layout_height="30dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/bootCB"
+            android:layout_below="@+id/iconCB"
             android:background="#151515"
             android:gravity="center_vertical"
             android:paddingLeft="5dp"
@@ -83,6 +83,7 @@
             android:checked="true"
             android:text="Start on boot"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+        
 
         <CheckBox
             android:id="@+id/tlCB"
@@ -117,19 +118,7 @@
             android:checked="true"
             android:text="Bottom Right"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <CheckBox
-            android:id="@+id/notificationCB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/bootCB"
-            android:layout_alignBottom="@+id/bootCB"
-            android:layout_alignLeft="@+id/brCB"
-            android:layout_margin="8dp"
-            android:checked="true"
-            android:text="Notification"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
+        
         <TextView
             android:id="@+id/radiusTV"
             android:layout_width="wrap_content"
@@ -192,6 +181,31 @@
             android:id="@+id/extraPadding"
             android:layout_width="match_parent"
             android:layout_height="8dp"
+            android:layout_alignLeft="@+id/radiusSB"
+            android:layout_alignRight="@+id/radiusSB"
+            android:layout_below="@+id/radiusSB" />
+
+        <CheckBox
+            android:id="@+id/iconCB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bootCB"
+            android:layout_margin="8dp"
+            android:checked="true"
+            android:text="Icon"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <CheckBox
+            android:id="@+id/notificationCB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/bootCB"
+            android:layout_alignBottom="@+id/bootCB"
+            android:layout_margin="8dp"
+            android:layout_toRightOf="@+id/bootCB"
+            android:checked="true"
+            android:text="Notification"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_below="@+id/overlapCB2" />
     </RelativeLayout>
 

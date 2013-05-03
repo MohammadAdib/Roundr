@@ -60,6 +60,7 @@ public class Settings extends Activity {
 		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean boot = prefs.getBoolean("boot", true);
 		boolean notification = prefs.getBoolean("notification", true);
+		boolean isIconOn = prefs.getBoolean("icon", false);
 		boolean overlap = prefs.getBoolean("overlap", true);
 		boolean overlap2 = prefs.getBoolean("overlap2", false);
 		int radius = prefs.getInt("radius", 10);
@@ -75,6 +76,7 @@ public class Settings extends Activity {
 		CheckBox blCB = (CheckBox) findViewById(R.id.blCB); // Bottom left
 		CheckBox brCB = (CheckBox) findViewById(R.id.brCB); // Bottom right
 		CheckBox notificationCB = (CheckBox) findViewById(R.id.notificationCB);
+		CheckBox iconCB = (CheckBox) findViewById(R.id.iconCB);
 		final TextView radiusTV = (TextView) findViewById(R.id.radiusTV);
 		final CheckBox overlapCB = (CheckBox) findViewById(R.id.overlapCB);
 		final CheckBox overlapCB2 = (CheckBox) findViewById(R.id.overlapCB2);
@@ -156,6 +158,17 @@ public class Settings extends Activity {
 			}
 
 		});
+		
+		iconCB.setChecked(isIconOn);
+		iconCB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				// TODO Auto-generated method stub
+				prefs.edit().putBoolean("icon",isChecked).commit();
+			}
+		});
+		
 		overlapCB.setChecked(overlap);
 		overlapCB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -230,6 +243,7 @@ public class Settings extends Activity {
 				}).start();
 			}
 		});
+		
 		radiusSB.setProgress(radius - 2);
 		radiusTV.setText("Corner Radius: " + pxFromDp(radius));
 		radiusSB.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
