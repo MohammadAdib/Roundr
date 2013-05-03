@@ -61,6 +61,7 @@ public class Settings extends Activity {
 		boolean boot = prefs.getBoolean("boot", true);
 		boolean notification = prefs.getBoolean("notification", true);
 		boolean overlap = prefs.getBoolean("overlap", true);
+		boolean overlap2 = prefs.getBoolean("overlap2", false);
 		int radius = prefs.getInt("radius", 10);
 		// determines which corners to show
 		boolean c0 = prefs.getBoolean("corner0", true);
@@ -75,7 +76,8 @@ public class Settings extends Activity {
 		CheckBox brCB = (CheckBox) findViewById(R.id.brCB); // Bottom right
 		CheckBox notificationCB = (CheckBox) findViewById(R.id.notificationCB);
 		final TextView radiusTV = (TextView) findViewById(R.id.radiusTV);
-		CheckBox overlapCB = (CheckBox) findViewById(R.id.overlapCB);
+		final CheckBox overlapCB = (CheckBox) findViewById(R.id.overlapCB);
+		final CheckBox overlapCB2 = (CheckBox) findViewById(R.id.overlapCB2);
 		SeekBar radiusSB = (SeekBar) findViewById(R.id.radiusSB);
 		// Set view properties
 		tlCB.setChecked(c0);
@@ -162,11 +164,52 @@ public class Settings extends Activity {
 				prefs.edit().putBoolean("overlap", isChecked).commit();
 				if (isChecked) {
 					prefs.edit().putInt("type", LayoutParams.TYPE_SYSTEM_OVERLAY).commit();
-					prefs.edit().putInt("flags", LayoutParams.FLAG_SHOW_WHEN_LOCKED).commit();
+					if (overlapCB2.isChecked())
+						prefs.edit().putInt("flags", LayoutParams.FLAG_SHOW_WHEN_LOCKED | LayoutParams.FLAG_LAYOUT_IN_SCREEN).commit();
+					else
+						prefs.edit().putInt("flags", LayoutParams.FLAG_SHOW_WHEN_LOCKED).commit();
 				} else {
 					prefs.edit().putInt("type", LayoutParams.TYPE_SYSTEM_ALERT).commit();
-					// Recommended flags by Mark Wei
-					prefs.edit().putInt("flags", LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH).commit();
+					if (overlapCB2.isChecked())
+						prefs.edit().putInt("flags", LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_LAYOUT_IN_SCREEN).commit();
+					else
+						prefs.edit().putInt("flags", LayoutParams.FLAG_NOT_TOUCH_MODAL).commit();
+				}
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						StandOutWindow.closeAll(Settings.this, Corner.class);
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						StandOutWindow.show(Settings.this, Corner.class, 0);
+						StandOutWindow.show(Settings.this, Corner.class, 1);
+						StandOutWindow.show(Settings.this, Corner.class, 2);
+						StandOutWindow.show(Settings.this, Corner.class, 3);
+					}
+
+				}).start();
+			}
+		});
+		overlapCB2.setChecked(overlap2);
+		overlapCB2.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				prefs.edit().putBoolean("overlap2", isChecked).commit();
+				if (isChecked) {
+					if (overlapCB.isChecked())
+						prefs.edit().putInt("flags", LayoutParams.FLAG_SHOW_WHEN_LOCKED | LayoutParams.FLAG_LAYOUT_IN_SCREEN).commit();
+					else
+						prefs.edit().putInt("flags", LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH | LayoutParams.FLAG_LAYOUT_IN_SCREEN).commit();
+				} else {
+					if (overlapCB.isChecked())
+						prefs.edit().putInt("flags", LayoutParams.FLAG_SHOW_WHEN_LOCKED).commit();
+					else
+						prefs.edit().putInt("flags", LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH).commit();
 				}
 				new Thread(new Runnable() {
 

@@ -137,7 +137,7 @@
             android:layout_below="@+id/blCB"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="4dp"
-            android:text="Corner Radius: 8dp"
+            android:text="Corner Radius:"
             android:textColor="#FFFFFF" />
 
         <SeekBar
@@ -176,11 +176,23 @@
             android:text="Overlap Lockscreen &amp; Notifications"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
+        <CheckBox
+            android:id="@+id/overlapCB2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/overlapCB"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:checked="false"
+            android:text="Overlap Status Bar"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
         <View
             android:id="@+id/extraPadding"
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:layout_below="@+id/overlapCB" />
+            android:layout_below="@+id/overlapCB2" />
     </RelativeLayout>
 
 </ScrollView>
