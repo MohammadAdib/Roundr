@@ -16,6 +16,50 @@ public final class R {
     public static final class color {
         public static final int ics_blue=0x7f050000;
     }
+    public static final class dimen {
+        /**  Large screen margins, per the Android Design guidelines. 
+ Large screen margins, per the Android Design guidelines. 
+
+         Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
+
+
+
+
+
+
+    
+
+         Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
+
+
+
+
+
+    
+
+         Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
+
+
+
+
+
+
+
+    
+
+         Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
+
+
+
+
+    
+         */
+        public static final int margin=0x7f070000;
+    }
     public static final class drawable {
         public static final int border=0x7f020000;
         public static final int border_focused=0x7f020001;
@@ -29,43 +73,41 @@ public final class R {
         public static final int nothing=0x7f020009;
         public static final int r_icon=0x7f02000a;
         public static final int shade=0x7f02000b;
-        public static final int topleft=0x7f02000c;
-        public static final int topright=0x7f02000d;
+        public static final int shadow=0x7f02000c;
+        public static final int topleft=0x7f02000d;
+        public static final int topright=0x7f02000e;
     }
     public static final class id {
-        public static final int TextView08=0x7f080009;
-        public static final int blCB=0x7f08000f;
-        public static final int body=0x7f08001f;
-        public static final int bootCB=0x7f08000d;
-        public static final int brCB=0x7f080011;
-        public static final int close=0x7f08001e;
-        public static final int content=0x7f080018;
-        public static final int corner=0x7f080020;
-        public static final int description=0x7f080003;
-        public static final int extraPadding=0x7f080017;
-        public static final int gsTV=0x7f08000b;
-        public static final int hide=0x7f08001c;
-        public static final int icon=0x7f080002;
-        public static final int iv=0x7f080001;
-        public static final int linearLayout=0x7f080007;
-        public static final int maximize=0x7f08001d;
-        public static final int move_upIV=0x7f080008;
-        public static final int notificationCB=0x7f080012;
-        public static final int overlapCB=0x7f080015;
-        public static final int overlapCB2=0x7f080016;
-        public static final int quitTB=0x7f08000a;
-        public static final int radiusSB=0x7f080014;
-        public static final int radiusTV=0x7f080013;
-        public static final int rl=0x7f080000;
-        public static final int roundrTV=0x7f08000c;
-        public static final int scrollView1=0x7f080006;
-        public static final int textView1=0x7f080004;
-        public static final int textView2=0x7f080005;
-        public static final int title=0x7f08001b;
-        public static final int titlebar=0x7f080019;
-        public static final int tlCB=0x7f08000e;
-        public static final int trCB=0x7f080010;
-        public static final int window_icon=0x7f08001a;
+        public static final int blCB=0x7f09000c;
+        public static final int body=0x7f09001c;
+        public static final int bootCB=0x7f09000a;
+        public static final int brCB=0x7f090014;
+        public static final int close=0x7f09001b;
+        public static final int content=0x7f090015;
+        public static final int corner=0x7f09001d;
+        public static final int description=0x7f090003;
+        public static final int filler=0x7f090013;
+        public static final int gsTV=0x7f090007;
+        public static final int hide=0x7f090019;
+        public static final int icon=0x7f090002;
+        public static final int iv=0x7f090001;
+        public static final int maximize=0x7f09001a;
+        public static final int notificationCB=0x7f090012;
+        public static final int overlapCB=0x7f090010;
+        public static final int overlapCB2=0x7f090011;
+        public static final int quitTB=0x7f090008;
+        public static final int radiusSB=0x7f09000f;
+        public static final int radiusTV=0x7f09000e;
+        public static final int rl=0x7f090000;
+        public static final int roundrTV=0x7f090009;
+        public static final int scrollView1=0x7f090006;
+        public static final int textView1=0x7f090004;
+        public static final int textView2=0x7f090005;
+        public static final int title=0x7f090018;
+        public static final int titlebar=0x7f090016;
+        public static final int tlCB=0x7f09000b;
+        public static final int trCB=0x7f09000d;
+        public static final int window_icon=0x7f090017;
     }
     public static final class layout {
         public static final int corner=0x7f030000;
@@ -84,6 +126,6 @@ public final class R {
         public static final int window_icon=0x7f060000;
     }
     public static final class style {
-        public static final int AppTheme=0x7f070000;
+        public static final int AppTheme=0x7f080000;
     }
 }

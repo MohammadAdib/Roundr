@@ -28,6 +28,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.WindowManager.LayoutParams;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -267,7 +268,9 @@ public class Settings extends Activity {
 
 		});
 		// Fun animation
-		findViewById(R.id.rl).startAnimation(AnimationUtils.loadAnimation(this, R.anim.show));
+		Animation anim = AnimationUtils.loadAnimation(this, R.anim.show);
+		anim.setStartOffset(500);
+		findViewById(R.id.rl).startAnimation(anim);
 	}
 
 	@SuppressLint("InlinedApi")

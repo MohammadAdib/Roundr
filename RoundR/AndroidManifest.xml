@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="mohammad.adib.roundr"
-    android:versionCode="19"
-    android:versionName="2.6.0.0" >
+    android:versionCode="22"
+    android:versionName="2.7.0.2" >
 
     <uses-sdk
         android:minSdkVersion="7"

@@ -236,7 +236,7 @@ public class Corner extends StandOutWindow {
 				// Hide Notification Icon (for <= Gingerbread devices only)
 				NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 				Notification notification = getPersistentNotification(corner);
-				notification.icon = R.drawable.nothing;
+				notification.icon = wei.mark.standout.R.drawable.nothing;
 				mNotificationManager.notify(getClass().hashCode() + ONGOING_NOTIFICATION_ID, notification);
 			} else {
 				NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

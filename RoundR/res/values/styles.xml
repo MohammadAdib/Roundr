@@ -1,5 +1,5 @@
 <resources>
 
-    <style name="AppTheme" parent="android:Theme.Dialog" />
+    <style name="AppTheme" parent="android:Theme.Light.NoTitleBar" />
 
 </resources>
