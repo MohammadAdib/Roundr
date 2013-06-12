@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:roundr="roundrprefs" >
+
+    <PreferenceCategory android:title="General Settings" >
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="enable"
+            android:title="Enable RoundR" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="start_on_boot"
+            android:summary="Start RoundR automatically on boot"
+            android:title="Start on boot" />
+
+        <Preference
+            android:key="notification"
+            android:summary="The notification prevents Android from killing RoundR in low memory situtations"
+            android:title="Notification" >
+        </Preference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="RoundR Settings" >
+        <PreferenceScreen
+            android:dependency="enable"
+            android:persistent="false"
+            android:summary="Enable rounding on specific corners"
+            android:title="Enabled Corners" >
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="corner0"
+                android:title="Top Left" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="corner1"
+                android:title="Top Right" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="corner2"
+                android:title="Bottom Left" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="corner3"
+                android:title="Bottom Right" />
+        </PreferenceScreen>
+
+        <mohammad.adib.roundr.SeekBarPreference
+            android:defaultValue="10"
+            android:key="radius"
+            android:max="40"
+            android:title="Corner Radius"
+            roundr:min="2"
+            roundr:unitsLeft=""
+            roundr:unitsRight="" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="overlap1"
+            android:summary="This also constitutes overlaping of the corners on the notification pull-down"
+            android:title="Enable on lockscreen" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="overlap2"
+            android:summary="Allows for the corners to overlap the status bar"
+            android:title="Overlap Status Bar" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

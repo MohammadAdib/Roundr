@@ -20,9 +20,11 @@ import wei.mark.standout.StandOutWindow;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
-public class Main extends Activity {
+public class MainActivity extends Activity {
 
 	/**
 	 * Main Activity that launches the 4 floating windows (corners)
@@ -38,14 +40,17 @@ public class Main extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		if (!BootReceiver.boot_up || Corner.running) {
-			Intent i = new Intent(this, Settings.class);
+			Intent i = new Intent(this, SettingsActivity.class);
 			startActivity(i);
 		}
-		StandOutWindow.show(this, Corner.class, 0);
-		StandOutWindow.show(this, Corner.class, 1);
-		StandOutWindow.show(this, Corner.class, 2);
-		StandOutWindow.show(this, Corner.class, 3);
+		if (prefs.getBoolean("enable", true)) {
+			StandOutWindow.show(this, Corner.class, 0);
+			StandOutWindow.show(this, Corner.class, 1);
+			StandOutWindow.show(this, Corner.class, 2);
+			StandOutWindow.show(this, Corner.class, 3);
+		}
 		finish();
 	}
 

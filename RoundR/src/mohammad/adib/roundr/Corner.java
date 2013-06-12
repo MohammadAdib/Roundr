@@ -104,7 +104,7 @@ public class Corner extends StandOutWindow {
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		// Check if this corner is enabled
 		if (prefs.getBoolean("corner" + corner, true)) {
-			int radius = pxFromDp(prefs.getInt("radius", 10));
+			int radius = pxFromDp(prefs.getInt("radius", 20));
 			// Thanks to Jan Metten for rewriting this based on gravity
 			switch (corner) {
 			case 0:
@@ -150,7 +150,7 @@ public class Corner extends StandOutWindow {
 				show(corner);
 			} else if (ACTION_SETTINGS.equals(action)) {
 				try {
-					Intent intentS = new Intent(this, Settings.class);
+					Intent intentS = new Intent(this, SettingsActivity.class);
 					intentS.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					startActivity(intentS);
 				} catch (Exception e) {
@@ -187,7 +187,7 @@ public class Corner extends StandOutWindow {
 		return "Rounded Corners";
 	}
 
-	@SuppressLint("InlinedApi")
+	@SuppressLint({ "InlinedApi", "NewApi" })
 	@SuppressWarnings("deprecation")
 	@Override
 	public Notification getPersistentNotification(int id) {

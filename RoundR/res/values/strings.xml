@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">RoundR</string>
-    <string name="settings">Configuration</string>
+    <string name="settings">Configuration</string>    
+    <string name="radius">Corner Radius</string>
 
 </resources>

@@ -14,51 +14,7 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
-        public static final int ics_blue=0x7f050000;
-    }
-    public static final class dimen {
-        /**  Large screen margins, per the Android Design guidelines. 
- Large screen margins, per the Android Design guidelines. 
-
-         Customize dimensions originally defined in res/values/dimens.xml (such as
-         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
-
-
-
-
-
-
-    
-
-         Customize dimensions originally defined in res/values/dimens.xml (such as
-         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
-
-
-
-
-
-    
-
-         Customize dimensions originally defined in res/values/dimens.xml (such as
-         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
-
-
-
-
-
-
-
-    
-
-         Customize dimensions originally defined in res/values/dimens.xml (such as
-         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
-
-
-
-
-    
-         */
-        public static final int margin=0x7f070000;
+        public static final int ics_blue=0x7f060000;
     }
     public static final class drawable {
         public static final int border=0x7f020000;
@@ -78,54 +34,46 @@ public final class R {
         public static final int topright=0x7f02000e;
     }
     public static final class id {
-        public static final int blCB=0x7f09000c;
-        public static final int body=0x7f09001c;
-        public static final int bootCB=0x7f09000a;
-        public static final int brCB=0x7f090014;
-        public static final int close=0x7f09001b;
-        public static final int content=0x7f090015;
-        public static final int corner=0x7f09001d;
+        public static final int body=0x7f09000f;
+        public static final int close=0x7f09000e;
+        public static final int content=0x7f090008;
+        public static final int corner=0x7f090010;
         public static final int description=0x7f090003;
-        public static final int filler=0x7f090013;
-        public static final int gsTV=0x7f090007;
-        public static final int hide=0x7f090019;
+        public static final int hide=0x7f09000c;
         public static final int icon=0x7f090002;
         public static final int iv=0x7f090001;
-        public static final int maximize=0x7f09001a;
-        public static final int notificationCB=0x7f090012;
-        public static final int overlapCB=0x7f090010;
-        public static final int overlapCB2=0x7f090011;
-        public static final int quitTB=0x7f090008;
-        public static final int radiusSB=0x7f09000f;
-        public static final int radiusTV=0x7f09000e;
+        public static final int maximize=0x7f09000d;
+        public static final int radiusTV=0x7f090004;
         public static final int rl=0x7f090000;
-        public static final int roundrTV=0x7f090009;
-        public static final int scrollView1=0x7f090006;
-        public static final int textView1=0x7f090004;
+        public static final int seekBarPrefBarContainer=0x7f090006;
+        public static final int seekBarPrefValue=0x7f090007;
         public static final int textView2=0x7f090005;
-        public static final int title=0x7f090018;
-        public static final int titlebar=0x7f090016;
-        public static final int tlCB=0x7f09000b;
-        public static final int trCB=0x7f09000d;
-        public static final int window_icon=0x7f090017;
+        public static final int title=0x7f09000b;
+        public static final int titlebar=0x7f090009;
+        public static final int window_icon=0x7f09000a;
     }
     public static final class layout {
         public static final int corner=0x7f030000;
         public static final int drop_down_list_item=0x7f030001;
         public static final int notification=0x7f030002;
-        public static final int settings=0x7f030003;
+        public static final int seek_bar_preference=0x7f030003;
         public static final int system_window_decorators=0x7f030004;
     }
     public static final class string {
-        public static final int app_name=0x7f060005;
-        public static final int close=0x7f060002;
-        public static final int corner=0x7f060003;
-        public static final int hide=0x7f060001;
-        public static final int maximize=0x7f060004;
-        public static final int settings=0x7f060006;
-        public static final int window_icon=0x7f060000;
+        public static final int app_name=0x7f070005;
+        public static final int close=0x7f070002;
+        public static final int corner=0x7f070003;
+        public static final int hide=0x7f070001;
+        public static final int maximize=0x7f070004;
+        public static final int radius=0x7f070007;
+        public static final int settings=0x7f070006;
+        public static final int window_icon=0x7f070000;
     }
     public static final class style {
         public static final int AppTheme=0x7f080000;
+        public static final int DialogTheme=0x7f080001;
+    }
+    public static final class xml {
+        public static final int preferences=0x7f050000;
     }
 }
