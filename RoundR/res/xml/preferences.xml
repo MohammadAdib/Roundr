@@ -16,7 +16,7 @@
 
         <Preference
             android:key="notification"
-            android:summary="The notification prevents Android from killing RoundR in low memory situtations"
+            android:summary="The notification prevents Android from killing RoundR in low memory siutations"
             android:title="Notification" >
         </Preference>
     </PreferenceCategory>
