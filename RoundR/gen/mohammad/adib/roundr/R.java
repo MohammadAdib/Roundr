@@ -27,7 +27,7 @@ public final class R {
         public static final int ic_launcher=0x7f020007;
         public static final int maximize=0x7f020008;
         public static final int nothing=0x7f020009;
-        public static final int r_icon=0x7f02000a;
+        public static final int notif_icon=0x7f02000a;
         public static final int shade=0x7f02000b;
         public static final int shadow=0x7f02000c;
         public static final int topleft=0x7f02000d;

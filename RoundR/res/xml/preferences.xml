@@ -13,12 +13,11 @@
             android:key="start_on_boot"
             android:summary="Start RoundR automatically on boot"
             android:title="Start on boot" />
-
-        <Preference
+        <CheckBoxPreference
+            android:defaultValue="true"
             android:key="notification"
-            android:summary="The notification prevents Android from killing RoundR in low memory siutations"
-            android:title="Notification" >
-        </Preference>
+            android:summary="The notification is required to keep RoundR running in low memory situations"
+            android:title="Visible Notification" />
     </PreferenceCategory>
     <PreferenceCategory android:title="RoundR Settings" >
         <PreferenceScreen

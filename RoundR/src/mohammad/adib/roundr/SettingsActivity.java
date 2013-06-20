@@ -44,25 +44,27 @@ public class SettingsActivity extends PreferenceActivity {
 			}
 		});
 		// Notification
-		((Preference) findPreference("notification")).setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			public boolean onPreferenceClick(Preference preference) {
-				final int apiLevel = Build.VERSION.SDK_INT;
-				if (apiLevel >= 16) { // above 4.1
+		final int apiLevel = Build.VERSION.SDK_INT;
+		if (apiLevel >= 16) {
+			((Preference) findPreference("notification")).setOnPreferenceClickListener(new OnPreferenceClickListener() {
+				public boolean onPreferenceClick(Preference preference) {
 					new AlertDialog.Builder(SettingsActivity.this).setTitle("Notification").setMessage("The notification prevents Android from killing RoundR in low memory situations.\n\nOn Android 4.1+ devices, it can be disabled via the App Info.").setPositiveButton("Continue", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
 							showInstalledAppDetails("mohammad.adib.roundr");
 						}
 					}).show();
-				} else { // below 4.1
-					new AlertDialog.Builder(SettingsActivity.this).setTitle("Required by Android").setMessage("The notification prevents Android from killing RoundR in low memory situations.\n\nOnly on Android 4.1+ devices, it can be disabled via the RoundR App Info. Unfortunately, your device is not running updated firmware. Check for updates with your carrier.").setNeutralButton("Make the icon invisible", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							StandOutWindow.sendData(SettingsActivity.this, Corner.class, 0, Corner.NOTIFICATION_CODE, new Bundle(), Corner.class, 0);
-						}
-					}).show();
+					return true;
 				}
-				return true;
-			}
-		});
+			});
+		}else{
+			((Preference) findPreference("notification")).setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+				@Override
+				public boolean onPreferenceChange(Preference preference, Object newValue) {
+					StandOutWindow.sendData(SettingsActivity.this, Corner.class, Corner.wildcard, Corner.NOTIFICATION_CODE, new Bundle(), Corner.class, StandOutWindow.DISREGARD_ID);
+					return true;
+				}
+			});
+		}
 		// Enable specific corners
 		for (int i = 0; i < 4; i++) {
 			((Preference) findPreference("corner" + i)).setOnPreferenceChangeListener(new OnPreferenceChangeListener() {

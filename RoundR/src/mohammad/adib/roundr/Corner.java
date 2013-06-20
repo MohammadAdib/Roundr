@@ -69,7 +69,7 @@ public class Corner extends StandOutWindow {
 
 	@Override
 	public int getAppIcon() {
-		return R.drawable.r_icon;
+		return R.drawable.notif_icon;
 	}
 
 	@Override
@@ -238,6 +238,7 @@ public class Corner extends StandOutWindow {
 				Notification notification = getPersistentNotification(corner);
 				notification.icon = wei.mark.standout.R.drawable.nothing;
 				mNotificationManager.notify(getClass().hashCode() + ONGOING_NOTIFICATION_ID, notification);
+				Log.d("Hello World", "");
 			} else {
 				NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 				Notification notification = getPersistentNotification(corner);
