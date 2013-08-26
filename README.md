@@ -1,20 +1,20 @@
-RoundR
+Roundr
 ======
-### Introducing RoundR
-RoundR serves a simple purpose; To round the corners of your screen. RoundR is licensed under Apache 2.0.
+### Introducing Roundr
+Roundr serves a simple purpose; To round the corners of your screen. Roundr is licensed under Apache 2.0.
 
 ### Functionality
-RoundR takes advantage of the fact that regardless of the device's color, the screen is surrounded with a pitch black border, the corners of which are rarely ever touched. RoundR places four small overlays at the corners of the display, to simulate a rounded screen.
+Roundr takes advantage of the fact that regardless of the device's color, the screen is surrounded with a pitch black border, the corners of which are rarely ever touched. Roundr places four small overlays at the corners of the display, to simulate a rounded screen.
 
 ### Source Code
-RoundR uses Mark Wei's Brilliant StandOut library to display the overlays. The source code for Mark's library (tweaked) & RoundR can Be found here on GitHub.
+Roundr uses Mark Wei's Brilliant StandOut library to display the overlays. The source code for Mark's library (tweaked) & Roundr can Be found here on GitHub.
 
 ### Development
 Follow the development on XDA: http://forum.xda-developers.com/showthread.php?t=1688531
 
-![RoundR](http://puu.sh/2Ez9y.png)
+![Roundr](http://puu.sh/2Ez9y.png)
 
-### Download RoundR
+### Download Roundr
 Google Play: https://play.google.com/store/apps/details?id=mohammad.adib.roundr
 
 ### Support or Contact
